@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>女性美容化妆市场调研报告 | PPT展示</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #050a14;
+      --bg-secondary: #0a1628;
+      --bg-card: #0d1f3c;
+      --fg-primary: #e8f0ff;
+      --fg-secondary: #7a8ba8;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #1e40af;
+      --accent-light: #60a5fa;
+      --border: rgba(59, 130, 246, 0.25);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      overflow-x: hidden;
+    }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    
+    /* Slide styling */
+    .slide {
+      min-height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 40px;
+      position: relative;
+    }
+    
+    .slide-number {
+      position: absolute;
+      bottom: 30px;
+      right: 40px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      color: var(--fg-secondary);
+    }
+    
+    /* Navigation */
+    .nav-dots {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .nav-dot:hover, .nav-dot.active {
+      background: var(--accent-light);
+      transform: scale(1.3);
+    }
+    
+    /* Back button */
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      background: rgba(10, 22, 40, 0.9);
+      border: 1px solid var(--border);
+      color: var(--fg-primary);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .back-btn:hover {
+      background: var(--accent-primary);
+      color: white;
+    }
+    
+    /* Chart bars */
+    .chart-bar {
+      display: inline-block;
+      border-radius: 4px 4px 0 0;
+      margin: 0 3px;
+    }
+    
+    /* Table styles */
+    .ppt-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .ppt-table th, .ppt-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .ppt-table th {
+      background: var(--bg-secondary);
+      font-weight: 600;
+    }
+    
+    /* Progress indicator */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-light));
+      z-index: 1000;
+      transition: width 0.3s;
+    }
+    
+    @media (max-width: 768px) {
+      .slide { padding: 40px 20px; }
+      .nav-dots { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progress"></div>
+  
+  <!-- Back Button -->
+  <a href="javascript:history.back()" class="back-btn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    返回报告
+  </a>
+  
+  <!-- Navigation Dots -->
+  <div class="nav-dots" id="nav-dots"></div>
+
+  <!-- ========== SLIDE 1: Cover ========== -->
+  <div class="slide" id="slide1" style="background: linear-gradient(135deg, #050a14 0%, #0d1f3c 100%);">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="text-sm tracking-widest mb-6" style="color: var(--accent-light);">Market Research Report</p>
+      <p class="text-base mb-4" style="color: var(--fg-secondary);">数据驱动决策 · Data-Driven Insights</p>
+      <h1 class="font-display text-6xl md:text-7xl font-bold mb-12">女性美容化妆<br>市场调研报告</h1>
+      
+      <div class="flex justify-center gap-16 mb-16">
+        <div class="text-center">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59,130,246,0.2);">
+            <span style="color: var(--accent-light); font-size: 24px;">01</span>
+          </div>
+          <p class="font-medium">市场洞察</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">Market Insights</p>
+        </div>
+        <div class="text-center">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59,130,246,0.2);">
+            <span style="color: var(--accent-light); font-size: 24px;">02</span>
+          </div>
+          <p class="font-medium">用户需求</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">User Needs</p>
+        </div>
+        <div class="text-center">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59,130,246,0.2);">
+            <span style="color: var(--accent-light); font-size: 24px;">03</span>
+          </div>
+          <p class="font-medium">产品创新</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">Innovation</p>
+        </div>
+      </div>
+      
+      <div class="flex justify-center gap-12 text-sm" style="color: var(--fg-secondary);">
+        <div>
+          <span style="color: var(--accent-light);">报告日期</span><br>
+          <span class="text-white">2026年3月</span>
+        </div>
+        <div>
+          <span style="color: var(--accent-light);">数据来源</span><br>
+          <span class="text-white">前瞻产业研究院 · 立鼎产业研究网 · 欧睿国际 · 淘宝天猫</span>
+        </div>
+      </div>
+    </div>
+    <span class="slide-number">1 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 2: Table of Contents ========== -->
+  <div class="slide" id="slide2" style="background: var(--bg-primary);">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-sm tracking-widest mb-4" style="color: var(--accent-light);">Table of Contents</p>
+      <h2 class="font-display text-5xl font-bold mb-4">目录</h2>
+      <p class="text-sm mb-12" style="color: var(--fg-secondary);">12 页深度分析</p>
+      
+      <div class="space-y-8">
+        <div class="flex gap-6 items-start p-6 rounded-xl" style="background: var(--bg-card);">
+          <span class="font-display text-3xl font-bold" style="color: var(--accent-light);">01</span>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">美容化妆市场概况</h3>
+            <p class="text-sm" style="color: var(--fg-secondary);">深入剖析全球及国内市场规模、增长趋势与区域分布特征，对比2019年与2024年市场格局变化，为战略决策提供坚实的数据基础。</p>
+            <div class="flex gap-4 mt-4 text-xs">
+              <span style="color: var(--accent-light);">全球市场规模</span>
+              <span style="color: var(--fg-secondary);">国内增长趋势</span>
+              <span style="color: var(--fg-secondary);">区域分布</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex gap-6 items-start p-6 rounded-xl" style="background: var(--bg-card);">
+          <span class="font-display text-3xl font-bold" style="color: var(--accent-light);">02</span>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">用户需求调研</h3>
+            <p class="text-sm" style="color: var(--fg-secondary);">结合定量问卷（217份有效样本）与定性焦点小组，全方位深度分析用户画像、消费行为模式及五大核心痛点，挖掘未被满足的需求。</p>
+            <div class="flex gap-4 mt-4 text-xs">
+              <span style="color: var(--accent-light);">用户画像</span>
+              <span style="color: var(--fg-secondary);">消费行为</span>
+              <span style="color: var(--fg-secondary);">痛点分析</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex gap-6 items-start p-6 rounded-xl" style="background: var(--bg-card);">
+          <span class="font-display text-3xl font-bold" style="color: var(--accent-light);">03</span>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">已有产品调研</h3>
+            <p class="text-sm" style="color: var(--fg-secondary);">对美容仪与脱毛仪市场进行深度分析，洞察五大技术类型、四大脱毛技术路线、品牌竞争格局及市场发展趋势，识别市场机会。</p>
+            <div class="flex gap-4 mt-4 text-xs">
+              <span style="color: var(--accent-light);">美容仪技术</span>
+              <span style="color: var(--fg-secondary);">脱毛仪创新</span>
+              <span style="color: var(--fg-secondary);">品牌格局</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex gap-6 items-start p-6 rounded-xl" style="background: var(--bg-card);">
+          <span class="font-display text-3xl font-bold" style="color: var(--accent-light);">04</span>
+          <div>
+            <h3 class="text-xl font-semibold mb-2">创新产品方案</h3>
+            <p class="text-sm" style="color: var(--fg-secondary);">提出四大创新产品方向：无线美容面罩、化妆工具清洗机、多功能大排灯、颈部按摩去颈纹仪，精准满足用户未被满足的需求。</p>
+            <div class="flex gap-4 mt-4 text-xs">
+              <span style="color: var(--accent-light);">无线面罩</span>
+              <span style="color: var(--fg-secondary);">清洗机</span>
+              <span style="color: var(--fg-secondary);">多功能组合</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-center gap-8 mt-12 text-sm" style="color: var(--fg-secondary);">
+        <span>数据来源权威可靠</span>
+        <span>多维度数据分析</span>
+        <span>创新方案落地可行</span>
+      </div>
+      <p class="text-center text-xs mt-4" style="color: var(--fg-secondary);">基于真实调研数据 · 深度洞察市场趋势</p>
+    </div>
+    <span class="slide-number">2 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 3: Global Market Overview ========== -->
+  <div class="slide" id="slide3" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">01</span>
+        <div>
+          <h2 class="text-3xl font-bold">Global Market Overview</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">全球个护小家电市场持续稳定增长</p>
+        </div>
+      </div>
+      
+      <h3 class="text-xl font-semibold mb-6">全球市场规模对比（2018 vs 2024）</h3>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Bar Chart -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-end justify-around h-48 mb-4">
+            <div class="text-center">
+              <div class="chart-bar w-12" style="height: 60px; background: linear-gradient(to top, #1e40af, #3b82f6);"></div>
+              <p class="text-xs mt-2" style="color: var(--fg-secondary);">2018</p>
+              <p class="font-bold">236亿</p>
+            </div>
+            <div class="text-center">
+              <div class="chart-bar w-12" style="height: 85px; background: linear-gradient(to top, #1e40af, #3b82f6);"></div>
+              <p class="text-xs mt-2" style="color: var(--fg-secondary);">2022</p>
+              <p class="font-bold">476亿</p>
+            </div>
+            <div class="text-center">
+              <div class="chart-bar w-12" style="height: 150px; background: linear-gradient(to top, #1e40af, #60a5fa);"></div>
+              <p class="text-xs mt-2" style="color: var(--fg-secondary);">2024</p>
+              <p class="font-bold" style="color: var(--accent-light);">587亿</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="text-center p-3 rounded-lg" style="background: var(--bg-secondary);">
+              <p class="text-2xl font-bold" style="color: var(--accent-light);">6.3%</p>
+              <p class="text-xs" style="color: var(--fg-secondary);">复合增长率 2018-2024年</p>
+            </div>
+            <div class="text-center p-3 rounded-lg" style="background: var(--bg-secondary);">
+              <p class="text-2xl font-bold" style="color: var(--accent-light);">6.8%</p>
+              <p class="text-xs" style="color: var(--fg-secondary);">预测增长 2024-2029年</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pie Chart -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4">全球零售额区域分布</h4>
+          <div class="relative w-48 h-48 mx-auto">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#3b82f6" stroke-width="20" stroke-dasharray="82 251.2" stroke-dashoffset="0" transform="rotate(-90 50 50)"/>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#1e40af" stroke-width="20" stroke-dasharray="72 251.2" stroke-dashoffset="-82" transform="rotate(-90 50 50)"/>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#1e3a8a" stroke-width="20" stroke-dasharray="53 251.2" stroke-dashoffset="-154" transform="rotate(-90 50 50)"/>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#475569" stroke-width="20" stroke-dasharray="44 251.2" stroke-dashoffset="-207" transform="rotate(-90 50 50)"/>
+            </svg>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-4 text-xs">
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded" style="background: #3b82f6;"></span>亚太 32.7%</div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded" style="background: #1e40af;"></span>北美 28.6%</div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded" style="background: #1e3a8a;"></span>西欧 21.3%</div>
+            <div class="flex items-center gap-2"><span class="w-3 h-3 rounded" style="background: #475569;"></span>其他 17.4%</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6 p-4 rounded-xl" style="background: var(--bg-card);">
+        <p class="font-semibold mb-2" style="color: var(--accent-light);">关键洞察</p>
+        <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+          <li>• 亚太地区为最大市场，2024年占比32.7%，增长潜力巨大</li>
+          <li>• 北美市场占比28.6%，西欧占比21.3%，市场成熟度高</li>
+          <li>• 全球零售额从2018年236亿美元增长至2024年587亿美元</li>
+        </ul>
+      </div>
+      
+      <p class="text-xs mt-6" style="color: var(--fg-secondary);">数据来源：前瞻产业研究院 · 立鼎产业研究网 &nbsp;|&nbsp; 所有小家电子品类中增速最快</p>
+    </div>
+    <span class="slide-number">3 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 4: Domestic Market ========== -->
+  <div class="slide" id="slide4" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">01</span>
+        <div>
+          <h2 class="text-3xl font-bold">Domestic Market Analysis</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">国内美容仪器市场快速扩张</p>
+        </div>
+      </div>
+      
+      <h3 class="text-xl font-semibold mb-6">双十一美容仪器TOP10品牌变迁</h3>
+      
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+        <!-- 2019 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="text-center mb-4 pb-2 border-b" style="border-color: rgba(239,68,68,0.3);">
+            <span class="text-sm" style="color: #f87171;">2019年榜单</span>
+          </div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span>1. 雅萌(YA-MAN)</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(239,68,68,0.2); color: #f87171;">日</span></div>
+            <div class="flex justify-between"><span>2. Tripollar</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(239,68,68,0.2); color: #f87171;">以</span></div>
+            <div class="flex justify-between"><span>3. Refa</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(239,68,68,0.2); color: #f87171;">日</span></div>
+            <div class="flex justify-between"><span>4. Silk'n</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(239,68,68,0.2); color: #f87171;">以</span></div>
+            <div class="flex justify-between"><span>5. NuFace</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(239,68,68,0.2); color: #f87171;">美</span></div>
+          </div>
+          <div class="mt-4 text-center text-sm">
+            <span style="color: var(--fg-secondary);">进口品牌占比: </span>
+            <span class="font-bold" style="color: #f87171;">77.53%</span>
+          </div>
+          <div class="mt-2 flex justify-center gap-2 text-xs" style="color: var(--fg-secondary);">
+            <span>日系品牌×2</span>
+            <span>以色列品牌×2</span>
+            <span>韩/法/英品牌</span>
+          </div>
+        </div>
+        
+        <!-- 2024 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="text-center mb-4 pb-2 border-b" style="border-color: var(--border);">
+            <span class="text-sm" style="color: var(--accent-light);">2024年榜单</span>
+          </div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span>1. 极萌(国货)</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(59,130,246,0.2); color: #60a5fa;">国</span></div>
+            <div class="flex justify-between"><span>2. AMIRO觅光</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(59,130,246,0.2); color: #60a5fa;">国</span></div>
+            <div class="flex justify-between"><span>3. Ulike</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(59,130,246,0.2); color: #60a5fa;">国</span></div>
+            <div class="flex justify-between"><span>4. 花至</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(59,130,246,0.2); color: #60a5fa;">国</span></div>
+            <div class="flex justify-between"><span>5. 雅萌</span><span class="px-2 py-0.5 rounded text-xs" style="background: rgba(239,68,68,0.2); color: #f87171;">日</span></div>
+          </div>
+          <div class="mt-4 text-center text-sm">
+            <span style="color: var(--fg-secondary);">国货品牌占比: </span>
+            <span class="font-bold" style="color: var(--accent-light);">90%</span>
+          </div>
+          <div class="mt-2 text-center text-xs" style="color: var(--fg-secondary);">其他国货×5 &nbsp;|&nbsp; 雅萌(唯一外资)</div>
+        </div>
+      </div>
+      
+      <div class="p-4 rounded-xl mb-6" style="background: var(--bg-card);">
+        <p class="font-semibold mb-2" style="color: var(--accent-light);">市场格局变化洞察</p>
+        <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+          <li>• 国货品牌技术迭代与合规化布局，市场份额实现历史性反超</li>
+          <li>• 极萌斩获抖音、天猫、京东等多平台美容仪类目销售冠军</li>
+          <li>• 以色列品牌退出TOP10，日系品牌仅剩雅萌</li>
+        </ul>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-2xl font-bold" style="color: var(--accent-light);">372.8亿</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">2024年线上销售额</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">线上渠道占比超75%</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-2xl font-bold" style="color: var(--accent-light);">430亿+</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">2025年预测</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">持续高增长态势</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-2xl font-bold" style="color: var(--accent-light);">3.5台</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">户均保有量</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">仅为欧美1/3，2-3倍提升空间</p>
+        </div>
+      </div>
+      
+      <p class="text-xs mt-6" style="color: var(--fg-secondary);">数据来源：前瞻产业研究院 · 立鼎产业研究网 · 欧睿国际 &nbsp;|&nbsp; 国货品牌崛起 · 市场格局重塑</p>
+    </div>
+    <span class="slide-number">4 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 5: Market Segments ========== -->
+  <div class="slide" id="slide5" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">01</span>
+        <div>
+          <h2 class="text-3xl font-bold">Market Segments</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">眼部美容仪成为增长最快的细分领域</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">面部美容工具消费规模增长</h3>
+          <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+            <div class="flex items-end justify-around h-32 mb-4">
+              <div class="text-center">
+                <div class="w-10 mx-auto rounded" style="height: 50px; background: linear-gradient(to top, #1e40af, #3b82f6);"></div>
+                <p class="text-xs mt-2" style="color: var(--fg-secondary);">2022</p>
+              </div>
+              <div class="text-center">
+                <div class="w-10 mx-auto rounded" style="height: 80px; background: linear-gradient(to top, #1e40af, #3b82f6);"></div>
+                <p class="text-xs mt-2" style="color: var(--fg-secondary);">2023</p>
+              </div>
+              <div class="text-center">
+                <div class="w-10 mx-auto rounded" style="height: 120px; background: linear-gradient(to top, #1e40af, #60a5fa);"></div>
+                <p class="text-xs mt-2" style="color: var(--fg-secondary);">2024.8</p>
+              </div>
+            </div>
+            <p class="text-center text-sm" style="color: var(--fg-secondary);">眼部美容仪消费规模：<span class="font-bold text-white">19.8亿元</span></p>
+          </div>
+          
+          <div class="mt-6 p-4 rounded-xl" style="background: var(--bg-card);">
+            <h4 class="font-semibold mb-3">95后夜间消费习惯</h4>
+            <div class="grid grid-cols-3 gap-4 text-center text-sm">
+              <div>
+                <p class="font-bold text-lg" style="color: var(--accent-light);">22:00-02:00</p>
+                <p class="text-xs" style="color: var(--fg-secondary);">夜间活动时间</p>
+              </div>
+              <div>
+                <p class="font-bold text-lg" style="color: var(--accent-light);">30%</p>
+                <p class="text-xs" style="color: var(--fg-secondary);">熬夜到1点占比</p>
+              </div>
+              <div>
+                <p class="font-bold text-lg" style="color: var(--accent-light);">40%+</p>
+                <p class="text-xs" style="color: var(--fg-secondary);">夜间护肤消费占比</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">核心消费群体特征</h3>
+          <div class="p-6 rounded-xl mb-4" style="background: var(--bg-card);">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-sm">25岁以下消费者占比</span>
+              <span class="font-bold text-xl" style="color: var(--accent-light);">42%+</span>
+            </div>
+            <p class="text-xs" style="color: var(--fg-secondary);">年轻群体成为眼部美容仪消费核心主力</p>
+            <p class="text-xs mt-2" style="color: var(--fg-secondary);">80后、90后突出表现 — 主力消费群</p>
+          </div>
+          
+          <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+            <h4 class="font-semibold mb-3">女性家庭消费结构</h4>
+            <div class="flex items-center gap-4">
+              <div class="flex-1">
+                <div class="h-3 rounded-full" style="background: var(--bg-secondary);">
+                  <div class="h-3 rounded-full" style="width: 45%; background: var(--accent-primary);"></div>
+                </div>
+              </div>
+              <span class="text-sm font-bold">45%</span>
+            </div>
+            <p class="text-xs mt-2" style="color: var(--fg-secondary);">用户满意：现代用户自我形象认知较好</p>
+            <p class="text-xs" style="color: var(--fg-secondary);">48%注重皮肤 — 光滑白皙皮肤是核心需求</p>
+            <p class="text-xs" style="color: var(--fg-secondary);">48%月消费200-600元 — 用户美妆消费意愿强烈</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6 p-4 rounded-xl" style="background: var(--bg-card);">
+        <p class="font-semibold mb-2" style="color: var(--accent-light);">关键洞察</p>
+        <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+          <li>• 面部护理类产品市场规模最大，占整体美容仪市场60%+</li>
+          <li>• 眼部美容仪细分赛道增速最快，2024年8月消费规模19.8亿元</li>
+          <li>• 近半女性个人消费占家庭收入1/3以上，美容护肤意愿强烈</li>
+          <li>• "熬夜修护"概念产品消费持续走高</li>
+        </ul>
+      </div>
+      
+      <p class="text-xs mt-4" style="color: var(--fg-secondary);">数据来源：阿里妈妈《美妆个护行业消费趋势白皮书》· 淘宝天猫 · 环球时报 · 虞问数据 &nbsp;|&nbsp; 面部产品规模最大 · 眼部仪器增速领先</p>
+    </div>
+    <span class="slide-number">5 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 6: User Profile ========== -->
+  <div class="slide" id="slide6" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">02</span>
+        <div>
+          <h2 class="text-3xl font-bold">User Profile & Behavior</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">问卷调研：用户画像与消费行为</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-4 gap-4 mb-8">
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">6</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">问卷发放天数</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">217</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">有效问卷数</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">90.4%</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">有效转化率</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">240</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">点击短链人数</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4">婚姻状况分布</h4>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 45%; background: var(--accent-primary);"></div>
+              </div>
+              <span class="text-sm w-16">未婚 45%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 40%; background: var(--accent-secondary);"></div>
+              </div>
+              <span class="text-sm w-16">已婚 40%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 15%; background: #475569;"></div>
+              </div>
+              <span class="text-sm w-16">其他 15%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4">年龄分布</h4>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 42%; background: var(--accent-primary);"></div>
+              </div>
+              <span class="text-sm w-20">18-25岁 42%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 35%; background: var(--accent-secondary);"></div>
+              </div>
+              <span class="text-sm w-20">26-35岁 35%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 23%; background: #475569;"></div>
+              </div>
+              <span class="text-sm w-20">36岁以上 23%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4">个人月收入分布</h4>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 48%; background: var(--accent-primary);"></div>
+              </div>
+              <span class="text-sm w-24">2000-6000元 48%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 32%; background: var(--accent-secondary);"></div>
+              </div>
+              <span class="text-sm w-24">6000-10000元 32%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 20%; background: #475569;"></div>
+              </div>
+              <span class="text-sm w-24">10000元以上 20%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4">注重的形象方面</h4>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 48%; background: var(--accent-primary);"></div>
+              </div>
+              <span class="text-sm w-16">皮肤 48%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 30%; background: var(--accent-secondary);"></div>
+              </div>
+              <span class="text-sm w-16">身材 30%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-4 rounded" style="background: var(--bg-secondary);">
+                <div class="h-4 rounded" style="width: 22%; background: #475569;"></div>
+              </div>
+              <span class="text-sm w-16">其他 22%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-4 mt-6 text-center text-sm">
+        <div class="p-3 rounded-xl" style="background: var(--bg-card);">
+          <span style="color: var(--accent-light); font-weight: bold;">45%用户满意</span>
+          <span style="color: var(--fg-secondary);"> — 现代用户自我形象认知较好</span>
+        </div>
+        <div class="p-3 rounded-xl" style="background: var(--bg-card);">
+          <span style="color: var(--accent-light); font-weight: bold;">48%注重皮肤</span>
+          <span style="color: var(--fg-secondary);"> — 光滑白皙皮肤是核心需求</span>
+        </div>
+        <div class="p-3 rounded-xl" style="background: var(--bg-card);">
+          <span style="color: var(--accent-light); font-weight: bold;">48%月消费200-600元</span>
+          <span style="color: var(--fg-secondary);"> — 用户美妆消费意愿强烈</span>
+        </div>
+      </div>
+    </div>
+    <span class="slide-number">6 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 7: Pain Points ========== -->
+  <div class="slide" id="slide7" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">02</span>
+        <div>
+          <h2 class="text-3xl font-bold">Pain Points & Needs</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">用户痛点与需求聚焦</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Pain Point 1 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59,130,246,0.2);">
+              <span class="text-xl">✋</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-lg mb-2">解放双手</h4>
+              <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+                <li>• 美容仪器手持麻烦，要自己动手，会很累</li>
+                <li>• 美容面罩带电源线不宜行动</li>
+                <li>• 照大排灯不能玩手机</li>
+              </ul>
+              <p class="text-xs mt-2 italic" style="color: var(--accent-light);">用户反馈："手举的很累"</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pain Point 2 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59,130,246,0.2);">
+              <span class="text-xl">⏰</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-lg mb-2">时间长</h4>
+              <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+                <li>• 美容仪器使用时间长，无法长期坚持</li>
+                <li>• 美容护肤时间长（如眼妆）</li>
+                <li>• 刚开始会坚持，但时间长就不想用了</li>
+              </ul>
+              <p class="text-xs mt-2 italic" style="color: var(--accent-light);">用户反馈："要拿出来，要插电，弄完还要清洗"</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pain Point 3 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59,130,246,0.2);">
+              <span class="text-xl">⚠️</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-lg mb-2">安全</h4>
+              <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+                <li>• 使用美容仪器有刺痛感</li>
+                <li>• 光辐射风险</li>
+                <li>• 卷发棒容易烫到脸和伤发</li>
+                <li>• 化妆工具滋生细菌</li>
+              </ul>
+              <p class="text-xs mt-2 italic" style="color: var(--accent-light);">用户反馈："最低档太强，用完刺痛"</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pain Point 4 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59,130,246,0.2);">
+              <span class="text-xl">📊</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-lg mb-2">产品功效</h4>
+              <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+                <li>• 抗皱纹效果未满足</li>
+                <li>• 美白肌肤效果不明显</li>
+                <li>• 抗松弛效果待提升</li>
+                <li>• 功能比较单一</li>
+              </ul>
+              <p class="text-xs mt-2" style="color: var(--accent-light);">用户需求：57%抗皱纹 · 53%美白 · 49%抗松弛</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pain Point 5 -->
+      <div class="mt-6 p-6 rounded-xl" style="background: var(--bg-card);">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59,130,246,0.2);">
+            <span class="text-xl">🧹</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-lg mb-2">清洁</h4>
+            <div class="grid md:grid-cols-2 gap-4">
+              <ul class="text-sm space-y-1" style="color: var(--fg-secondary);">
+                <li>• 美妆蛋化妆刷难清洗</li>
+                <li>• 美容仪器清洗麻烦</li>
+                <li>• 化妆工具滋生细菌</li>
+                <li>• 按摩头不卫生</li>
+              </ul>
+              <div class="text-sm">
+                <p class="font-semibold mb-2">用户痛点：</p>
+                <p><span style="color: var(--accent-light);">51%</span> 滋生细菌</p>
+                <p><span style="color: var(--accent-light);">43%</span> 难清洗</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Purchase Factors -->
+      <div class="mt-8 p-6 rounded-xl" style="background: var(--bg-card);">
+        <h4 class="font-semibold text-lg mb-4">促购因子分析：产品期望特征</h4>
+        <div class="space-y-3">
+          <div class="flex items-center gap-4">
+            <span class="w-24 text-sm">安全</span>
+            <div class="flex-1 h-6 rounded" style="background: var(--bg-secondary);">
+              <div class="h-6 rounded flex items-center justify-end pr-3 text-xs font-bold" style="width: 57%; background: linear-gradient(90deg, #1e40af, #3b82f6);">57%</div>
+            </div>
+            <span class="text-xs" style="color: var(--fg-secondary);">无风险无刺激</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="w-24 text-sm">易用易操作</span>
+            <div class="flex-1 h-6 rounded" style="background: var(--bg-secondary);">
+              <div class="h-6 rounded flex items-center justify-end pr-3 text-xs font-bold" style="width: 54%; background: linear-gradient(90deg, #1e40af, #3b82f6);">54%</div>
+            </div>
+            <span class="text-xs" style="color: var(--fg-secondary);">解放双手</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="w-24 text-sm">便携小巧</span>
+            <div class="flex-1 h-6 rounded" style="background: var(--bg-secondary);">
+              <div class="h-6 rounded flex items-center justify-end pr-3 text-xs font-bold" style="width: 42%; background: linear-gradient(90deg, #1e40af, #3b82f6);">42%</div>
+            </div>
+            <span class="text-xs" style="color: var(--fg-secondary);">易于携带</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="w-24 text-sm">科技智能</span>
+            <div class="flex-1 h-6 rounded" style="background: var(--bg-secondary);">
+              <div class="h-6 rounded flex items-center justify-end pr-3 text-xs font-bold" style="width: 41%; background: linear-gradient(90deg, #1e40af, #3b82f6);">41%</div>
+            </div>
+            <span class="text-xs" style="color: var(--fg-secondary);">智能化体验</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="w-24 text-sm">功能多样</span>
+            <div class="flex-1 h-6 rounded" style="background: var(--bg-secondary);">
+              <div class="h-6 rounded flex items-center justify-end pr-3 text-xs font-bold" style="width: 35%; background: linear-gradient(90deg, #1e40af, #3b82f6);">35%</div>
+            </div>
+            <span class="text-xs" style="color: var(--fg-secondary);">一机多用</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-number">7 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 8: Beauty Device Market ========== -->
+  <div class="slide" id="slide8" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">03</span>
+        <div>
+          <h2 class="text-3xl font-bold">Beauty Device Market</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">美容仪市场：技术类型与品牌格局</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-sm" style="color: var(--fg-secondary);">需求量增长</p>
+          <p class="text-xl font-bold" style="color: var(--accent-light);">131万台 → 1912.3万台</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">2014-2024年，10年增长14.6倍</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-sm" style="color: var(--fg-secondary);">市场规模增长</p>
+          <p class="text-xl font-bold" style="color: var(--accent-light);">20亿 → 158.7亿元</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">2014-2024年，10年增长近7倍</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <p class="text-sm" style="color: var(--fg-secondary);">家用便携款占比</p>
+          <p class="text-xl font-bold" style="color: var(--accent-light);">>85%</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">成为核心增长动力</p>
+        </div>
+      </div>
+      
+      <p class="text-sm mb-6" style="color: var(--fg-secondary);">提拉紧致美容仪（含射频、微电流）增速最快，2019-2024年复合增长率 <span style="color: var(--accent-light);">41.3%</span></p>
+      
+      <h3 class="text-lg font-semibold mb-4">五大技术类型</h3>
+      <div class="grid md:grid-cols-5 gap-3 mb-6">
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <div class="text-2xl font-bold mb-2" style="color: var(--accent-light);">RF</div>
+          <p class="font-semibold text-sm">射频型</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">主流技术</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">通过无线电高频振动产生热能，促进胶原蛋白产生</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <div class="text-2xl font-bold mb-2" style="color: var(--accent-light);">MC</div>
+          <p class="font-semibold text-sm">微电流型</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">提拉紧致</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">利用微电流按摩刺激，促进血液循环，消除水肿</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <div class="text-2xl font-bold mb-2" style="color: var(--accent-light);">EI</div>
+          <p class="font-semibold text-sm">电离子型</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">导入导出</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">利用正负流互斥相吸原理，导入导出有效成分</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <div class="text-2xl font-bold mb-2" style="color: var(--accent-light);">US</div>
+          <p class="font-semibold text-sm">超声波型</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">深层清洁</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">利用超声波穿透力，提高皮肤组织新陈代谢</p>
+        </div>
+        <div class="p-4 rounded-xl text-center" style="background: var(--bg-card);">
+          <div class="text-2xl font-bold mb-2" style="color: var(--accent-light);">LZ</div>
+          <p class="font-semibold text-sm">激光型</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">精准治疗</p>
+          <p class="text-xs mt-1" style="color: var(--fg-secondary);">通过聚焦精准单色光，去除或破坏目标组织</p>
+        </div>
+      </div>
+      
+      <h3 class="text-lg font-semibold mb-4">2024年市场格局</h3>
+      <div class="grid md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <p class="text-2xl font-bold" style="color: var(--accent-light);">61.30亿</p>
+          <p class="text-sm">清洁及补水美容仪</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">占比38.6%</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <p class="text-2xl font-bold" style="color: var(--accent-light);">44.44亿</p>
+          <p class="text-sm">提拉紧致美容仪</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">占比28.0%</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <p class="text-2xl font-bold" style="color: var(--accent-light);">41.26亿</p>
+          <p class="text-sm">祛痘祛斑美容仪</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">占比26.0%</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <p class="text-2xl font-bold" style="color: var(--accent-light);">>3亿</p>
+          <p class="text-sm">Top4品牌成交额</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">国货品牌反超</p>
+        </div>
+      </div>
+    </div>
+    <span class="slide-number">8 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 9: Hair Removal Market ========== -->
+  <div class="slide" id="slide9" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">03</span>
+        <div>
+          <h2 class="text-3xl font-bold">Hair Removal Device Market</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">脱毛仪市场：快速增长与技术创新</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4">脱毛仪销量爆发式增长</h4>
+          <p class="text-4xl font-bold mb-2" style="color: var(--accent-light);">18倍</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">3年时间销量增长</p>
+          <p class="text-sm mt-4" style="color: var(--fg-secondary);">市场潜力巨大</p>
+        </div>
+        
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4">用户痛点与差评</h4>
+          <ul class="text-sm space-y-2" style="color: var(--fg-secondary);">
+            <li>• 脱毛效果不好，达不到预期</li>
+            <li>• 使用时有刺痛感，体验不佳</li>
+            <li>• 敏感肌肤容易受到灼伤或受损</li>
+          </ul>
+          <p class="text-sm mt-4 font-semibold" style="color: var(--accent-light);">市场机会：蓝宝石冰点无痛技术成为差异化竞争关键</p>
+        </div>
+      </div>
+      
+      <h3 class="text-lg font-semibold mb-4">四大脱毛技术路线</h3>
+      <div class="grid md:grid-cols-4 gap-4 mb-6">
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style="background: rgba(59,130,246,0.2);">
+            <span class="font-bold" style="color: var(--accent-light);">L</span>
+          </div>
+          <h4 class="font-semibold">Laser激光</h4>
+          <p class="text-xs mt-1" style="color: var(--accent-light);">专业级技术</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">美容院/医院使用</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">功率大、能量大、波长更长</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">功率可达500-600瓦</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style="background: rgba(59,130,246,0.2);">
+            <span class="font-bold" style="color: var(--accent-light);">IPL</span>
+          </div>
+          <h4 class="font-semibold">强脉冲光</h4>
+          <p class="text-xs mt-1" style="color: var(--accent-light);">家用主流</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">照射后能闭合异常色素</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">破坏毛囊、刺激胶原蛋白再生</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">去除体毛同时嫩肤</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style="background: rgba(59,130,246,0.2);">
+            <span class="font-bold" style="color: var(--accent-light);">HPL</span>
+          </div>
+          <h4 class="font-semibold">宅光激光</h4>
+          <p class="text-xs mt-1" style="color: var(--accent-light);">以色列技术</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">以色列研发</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">毛发黑色素选择性吸收光波</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">Silk'n脱毛仪使用此技术</p>
+        </div>
+        <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style="background: rgba(59,130,246,0.2);">
+            <span class="font-bold" style="color: var(--accent-light);">E</span>
+          </div>
+          <h4 class="font-semibold">ELOS技术</h4>
+          <p class="text-xs mt-1" style="color: var(--accent-light);">IPL+射频</p>
+          <p class="text-xs mt-2" style="color: var(--fg-secondary);">高效组合</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">结合IPL和双极射频</p>
+          <p class="text-xs" style="color: var(--fg-secondary);">疗效比单纯IPL高出20%</p>
+        </div>
+      </div>
+      
+      <div class="p-4 rounded-xl" style="background: var(--bg-card);">
+        <div class="grid md:grid-cols-3 gap-4 text-sm">
+          <div>
+            <span style="color: var(--accent-light);">Ulike市场份额领先</span>
+            <span style="color: var(--fg-secondary);"> — 创新"蓝宝石冰点无痛技术"</span>
+          </div>
+          <div>
+            <span style="color: var(--accent-light);">价格区间</span>
+            <span style="color: var(--fg-secondary);">：300-5000元</span>
+          </div>
+          <div>
+            <span style="color: var(--accent-light);">认证要求</span>
+            <span style="color: var(--fg-secondary);">：FDA/CFDA</span>
+          </div>
+        </div>
+      </div>
+      
+      <p class="text-xs mt-4" style="color: var(--fg-secondary);">数据来源：前瞻产业研究院 · 立鼎产业研究网 &nbsp;|&nbsp; 3年时间销量增长18倍 · 市场潜力巨大</p>
+    </div>
+    <span class="slide-number">9 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 10: Innovation Solution 01 ========== -->
+  <div class="slide" id="slide10" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">04</span>
+        <div>
+          <h2 class="text-3xl font-bold">Innovation Solution 01</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">创新方案一：无线美容面罩 — 解放双手，提升功效，增加蒸汽功能</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4" style="color: var(--accent-light);">用户痛点</h4>
+          <ul class="text-sm space-y-3" style="color: var(--fg-secondary);">
+            <li class="flex gap-2"><span style="color: var(--accent-light);">•</span> 带电源线不宜行动 — 传统美容面罩需要连接电源线，使用时活动受限</li>
+            <li class="flex gap-2"><span style="color: var(--accent-light);">•</span> 手持操作累 — 美容仪器手持比较麻烦，要自己动手，会很累</li>
+            <li class="flex gap-2"><span style="color: var(--accent-light);">•</span> 照大排灯不能玩手机 — 使用时光线太强，无法同时进行其他活动</li>
+            <li class="flex gap-2"><span style="color: var(--accent-light);">•</span> 功效不佳 — 现有产品功效不明显，无法满足用户期待</li>
+          </ul>
+        </div>
+        
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <h4 class="font-semibold mb-4" style="color: var(--accent-light);">创新亮点</h4>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="p-3 rounded-lg text-center" style="background: var(--bg-secondary);">
+              <p class="font-semibold">无线设计</p>
+              <p class="text-xs" style="color: var(--fg-secondary);">不带电源线</p>
+            </div>
+            <div class="p-3 rounded-lg text-center" style="background: var(--bg-secondary);">
+              <p class="font-semibold">轻薄便携</p>
+              <p class="text-xs" style="color: var(--fg-secondary);">净重≤0.5kg</p>
+            </div>
+            <div class="p-3 rounded-lg text-center" style="background: var(--bg-secondary);">
+              <p class="font-semibold">蒸汽功能</p>
+              <p class="text-xs" style="color: var(--fg-secondary);">120ml水箱</p>
+            </div>
+            <div class="p-3 rounded-lg text-center" style="background: var(--bg-secondary);">
+              <p class="font-semibold">护眼设计</p>
+              <p class="text-xs" style="color: var(--fg-secondary);">可玩手机</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6 p-6 rounded-xl" style="background: var(--bg-card);">
+        <h4 class="font-semibold mb-4">技术方案</h4>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <div class="flex gap-3">
+            <span class="font-bold" style="color: var(--accent-light);">01</span>
+            <div>
+              <p class="font-semibold">电池供电系统</p>
+              <p style="color: var(--fg-secondary);">美白面罩不带电源线，需增加电池，在保证功率效果的情况下，电池容量控制持续使用2-3小时，满足用户3-5个疗程的使用需求</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="font-bold" style="color: var(--accent-light);">02</span>
+            <div>
+              <p class="font-semibold">蒸汽功能集成</p>
+              <p style="color: var(--fg-secondary);">由于需要蒸汽功能，在头顶设计一个120ml的小型水箱，满足一次疗程的蒸汽使用，提高产品使用效率，实现美白+补水双重功效</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="font-bold" style="color: var(--accent-light);">03</span>
+            <div>
+              <p class="font-semibold">轻盈材料应用</p>
+              <p style="color: var(--fg-secondary);">材料使用轻盈材料，净重不超过0.5kg，减轻用户佩戴负担，提升使用舒适度，长时间佩戴不疲劳</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <span class="font-bold" style="color: var(--accent-light);">04</span>
+            <div>
+              <p class="font-semibold">护眼透明设计</p>
+              <p style="color: var(--fg-secondary);">眼睛部分采用透明设计，不影响视野，用户可以在使用时看手机、看书等，提升使用体验，解决"照灯不能玩手机"痛点</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex flex-wrap gap-4">
+        <span class="px-4 py-2 rounded-lg text-sm" style="background: var(--bg-card);">核心功能：</span>
+        <span class="px-4 py-2 rounded-lg text-sm" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">杀菌抗炎</span>
+        <span class="px-4 py-2 rounded-lg text-sm" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">抗老紧致</span>
+        <span class="px-4 py-2 rounded-lg text-sm" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">减缓疼痛</span>
+        <span class="px-4 py-2 rounded-lg text-sm" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">抑制瘢痕</span>
+        <span class="px-4 py-2 rounded-lg text-sm" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">蒸汽补水</span>
+        <span class="px-4 py-2 rounded-lg text-sm" style="background: var(--accent-primary); color: white;">预计市场接受度 85%+</span>
+      </div>
+    </div>
+    <span class="slide-number">10 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 11: Innovation Solutions 02-04 ========== -->
+  <div class="slide" id="slide11" style="background: var(--bg-primary);">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="font-display text-4xl font-bold" style="color: var(--accent-light);">04</span>
+        <div>
+          <h2 class="text-3xl font-bold">Innovation Solutions 02-04</h2>
+          <p class="text-sm" style="color: var(--fg-secondary);">创新方案二、三、四 — 多功能组合满足用户多样化需求</p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Solution 02 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">02</span>
+            <h4 class="font-semibold text-lg">化妆工具清洗机</h4>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">用户痛点</p>
+            <ul class="text-xs space-y-1" style="color: var(--fg-secondary);">
+              <li>• 51%化妆工具滋生细菌</li>
+              <li>• 43%化妆工具难清洗</li>
+              <li>• 美容仪器清洗麻烦</li>
+            </ul>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">创新点</p>
+            <p class="text-xs" style="color: var(--fg-secondary);">市面上仅有清洗功能产品，创新方案增加消毒、烘干、储存功能</p>
+          </div>
+          
+          <div>
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">技术方案</p>
+            <ul class="text-xs space-y-1" style="color: var(--fg-secondary);">
+              <li>• 超声波清洗：高频振动深入缝隙</li>
+              <li>• UV紫外线消毒：杀灭99.9%细菌</li>
+              <li>• 热风烘干：快速烘干避免污染</li>
+              <li>• 智能储存：密封空间分类存放</li>
+            </ul>
+            <p class="text-xs mt-2" style="color: var(--fg-secondary);">适用工具：美妆蛋、化妆刷、美容仪器</p>
+          </div>
+        </div>
+        
+        <!-- Solution 03 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">03</span>
+            <h4 class="font-semibold text-lg">多功能大排灯</h4>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">用户痛点</p>
+            <ul class="text-xs space-y-1" style="color: var(--fg-secondary);">
+              <li>• 美白抗皱祛痘是核心需求</li>
+              <li>• 市面上仪器功能单一</li>
+              <li>• 无法满足多样化需求</li>
+            </ul>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">创新点</p>
+            <p class="text-xs" style="color: var(--fg-secondary);">多功能组合：美白抗皱祛痘 + 蒸脸集成一体，一机多用</p>
+          </div>
+          
+          <div>
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">技术方案</p>
+            <ul class="text-xs space-y-1" style="color: var(--fg-secondary);">
+              <li>• LED照射：多光谱LED灯珠</li>
+              <li>• 定制化光疗：针对不同肌肤问题</li>
+              <li>• 纳米级雾状水雾：较高温度深层滋润</li>
+              <li>• 打开毛孔：促进营养成分吸收</li>
+            </ul>
+            <p class="text-xs mt-2" style="color: var(--accent-light);">核心功效：美白 · 抗皱 · 祛痘 · 补水</p>
+          </div>
+        </div>
+        
+        <!-- Solution 04 -->
+        <div class="p-6 rounded-xl" style="background: var(--bg-card);">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(59,130,246,0.2); color: var(--accent-light);">04</span>
+            <h4 class="font-semibold text-lg">颈部按摩去颈纹仪</h4>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">用户痛点</p>
+            <ul class="text-xs space-y-1" style="color: var(--fg-secondary);">
+              <li>• 祛颈纹需求强烈</li>
+              <li>• 颈部按摩养生需求</li>
+              <li>• 需手持操作且功能单一</li>
+            </ul>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">创新点</p>
+            <p class="text-xs" style="color: var(--fg-secondary);">多功能组合：祛颈纹 + 颈部按摩集成一体，解放双手</p>
+          </div>
+          
+          <div>
+            <p class="text-sm font-medium mb-2" style="color: var(--accent-light);">技术方案</p>
+            <ul class="text-xs space-y-1" style="color: var(--fg-secondary);">
+              <li>• 按摩贴设计：贴合颈部曲线</li>
+              <li>• 均匀分布按摩点：全方位护理</li>
+              <li>• 微电流技术：EMS刺激肌肉收缩</li>
+              <li>• 微电流振动：深层放松颈部肌肉</li>
+            </ul>
+            <p class="text-xs mt-2" style="color: var(--accent-light);">核心功效：祛颈纹 · 颈部按摩 · 缓解疲劳</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 p-6 rounded-xl" style="background: var(--bg-card);">
+        <h4 class="font-semibold mb-4 text-center">四大创新方案核心价值</h4>
+        <div class="grid md:grid-cols-4 gap-4 text-center text-sm">
+          <div>
+            <p class="font-bold" style="color: var(--accent-light);">解放双手</p>
+            <p style="color: var(--fg-secondary);">解决手持累、操作麻烦痛点</p>
+          </div>
+          <div>
+            <p class="font-bold" style="color: var(--accent-light);">功能多样</p>
+            <p style="color: var(--fg-secondary);">一机多用，提升使用效率</p>
+          </div>
+          <div>
+            <p class="font-bold" style="color: var(--accent-light);">安全卫生</p>
+            <p style="color: var(--fg-secondary);">解决细菌滋生、清洁难题</p>
+          </div>
+          <div>
+            <p class="font-bold" style="color: var(--accent-light);">功效提升</p>
+            <p style="color: var(--fg-secondary);">满足美白抗皱祛痘等核心需求</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-number">11 / 12</span>
+  </div>
+
+  <!-- ========== SLIDE 12: Thank You ========== -->
+  <div class="slide" id="slide12" style="background: linear-gradient(135deg, #050a14 0%, #0d1f3c 50%, #050a14 100%);">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="font-display text-6xl md:text-7xl font-bold mb-8">Thank You</h1>
+      <p class="text-2xl mb-12">谢谢观看</p>
+      
+      <p class="text-lg mb-8" style="color: var(--fg-secondary);">以数据驱动产品创新 · 以用户需求引领市场方向</p>
+      
+      <div class="flex justify-center gap-8 mb-12">
+        <div class="text-center">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">587亿</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">全球市场规模(美元)</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">217份</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">有效问卷样本</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">5大</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">核心用户痛点</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-bold" style="color: var(--accent-light);">4个</p>
+          <p class="text-sm" style="color: var(--fg-secondary);">创新产品方案</p>
+        </div>
+      </div>
+      
+      <div class="p-6 rounded-xl mb-8 text-left" style="background: var(--bg-card);">
+        <p class="text-sm mb-4" style="color: var(--fg-secondary);">本报告基于前瞻产业研究院、立鼎产业研究网、欧睿国际、淘宝天猫等权威数据源，结合217份有效问卷与深度焦点小组访谈，全面分析女性美容化妆市场现状、用户需求痛点及产品创新方向。</p>
+        <div class="flex justify-center gap-6 text-sm">
+          <span style="color: var(--accent-light);">数据真实可靠</span>
+          <span style="color: var(--accent-light);">分析深入透彻</span>
+          <span style="color: var(--accent-light);">方案落地可行</span>
+        </div>
+      </div>
+      
+      <p class="text-xs" style="color: var(--fg-secondary);">© 2026 女性美容化妆市场调研报告 | 数据驱动决策 · Data-Driven Insights</p>
+    </div>
+    <span class="slide-number">12 / 12</span>
+  </div>
+
+  <script>
+    // Generate navigation dots
+    const navDots = document.getElementById('nav-dots');
+    for (let i = 1; i <= 12; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot';
+      dot.onclick = () => document.getElementById('slide' + i).scrollIntoView({ behavior: 'smooth' });
+      navDots.appendChild(dot);
+    }
+    
+    // Update active dot on scroll
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.nav-dot');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Array.from(slides).indexOf(entry.target);
+          dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    slides.forEach(slide => observer.observe(slide));
+    
+    // Progress bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      document.getElementById('progress').style.width = progress + '%';
+    });
+  </script>
+</body>
+</html>

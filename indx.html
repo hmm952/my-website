@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美容仪产品报告 | 数据驱动决策</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #050a14;
+      --bg-secondary: #0a1628;
+      --bg-card: #0d1f3c;
+      --fg-primary: #e8f0ff;
+      --fg-secondary: #7a8ba8;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #1e40af;
+      --accent-light: #60a5fa;
+      --accent-dark: #1e3a8a;
+      --border: rgba(59, 130, 246, 0.25);
+      --glow: rgba(59, 130, 246, 0.5);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      overflow-x: hidden;
+    }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 3px; }
+
+    #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .section-gradient { background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%); }
+
+    .animated-border {
+      position: relative;
+      background: var(--bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .animated-border::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent-primary), transparent 50%, var(--accent-secondary));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .stagger-children .reveal:nth-child(1) { transition-delay: 0.1s; }
+    .stagger-children .reveal:nth-child(2) { transition-delay: 0.2s; }
+    .stagger-children .reveal:nth-child(3) { transition-delay: 0.3s; }
+    .stagger-children .reveal:nth-child(4) { transition-delay: 0.4s; }
+    .stagger-children .reveal:nth-child(5) { transition-delay: 0.5s; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-primary));
+      color: var(--bg-primary);
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+    .btn-primary:hover::after { transform: translateX(100%); }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
+    }
+
+    .hover-lift { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .hover-lift:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--accent-primary), transparent);
+    }
+
+    #product-gif-container {
+      width: 100%;
+      height: 400px;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+    }
+
+    #product-gif-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    nav { backdrop-filter: blur(20px); background: rgba(5, 10, 20, 0.8); }
+
+    input, textarea, select {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--fg-primary);
+      padding: 14px 18px;
+      border-radius: 8px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--fg-secondary);
+      opacity: 0.7;
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237a8ba8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    input[type="date"] {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.6);
+      cursor: pointer;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .pain-card { position: relative; overflow: hidden; }
+    .pain-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+      transition: left 0.5s;
+    }
+    .pain-card:hover::after { left: 100%; }
+
+    .counter { font-variant-numeric: tabular-nums; }
+
+    .tech-card { position: relative; overflow: hidden; }
+    .tech-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-light));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    .tech-card:hover::before { transform: scaleX(1); }
+
+    .chart-container { position: relative; width: 100%; }
+    .chart-container canvas { display: block; width: 100% !important; height: auto !important; }
+
+    .data-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .data-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+      opacity: 0.5;
+    }
+
+    .market-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .market-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+      opacity: 0.6;
+    }
+
+    .stat-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+      opacity: 0.4;
+    }
+
+    .progress-bar {
+      transition: width 1.5s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="#" class="font-display font-bold text-xl" style="color: var(--accent-light);">BEAUTY TECH</a>
+      <div class="hidden md:flex gap-8 text-sm">
+        <a href="#insights" class="text-gray-400 hover:text-white transition-colors">市场洞察</a>
+        <a href="#segments" class="text-gray-400 hover:text-white transition-colors">细分市场</a>
+        <a href="#users" class="text-gray-400 hover:text-white transition-colors">用户需求</a>
+        <a href="#innovation" class="text-gray-400 hover:text-white transition-colors">创新方案</a>
+        <a href="#contact" class="text-gray-400 hover:text-white transition-colors">方案迭代与反馈收集</a>
+      </div>
+      <button id="menu-toggle" class="md:hidden text-white">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 hidden" style="background: rgba(5, 10, 20, 0.98);">
+    <div class="flex flex-col items-center justify-center h-full gap-8 text-2xl">
+      <a href="#insights" class="text-gray-300 hover:text-white transition-colors mobile-link">市场洞察</a>
+      <a href="#segments" class="text-gray-300 hover:text-white transition-colors mobile-link">细分市场</a>
+      <a href="#users" class="text-gray-300 hover:text-white transition-colors mobile-link">用户需求</a>
+      <a href="#innovation" class="text-gray-300 hover:text-white transition-colors mobile-link">创新方案</a>
+      <a href="#contact" class="text-gray-300 hover:text-white transition-colors mobile-link">方案迭代与反馈收集</a>
+      <button id="close-menu" class="mt-8 p-3 rounded-full" style="background: var(--bg-card);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <canvas id="hero-canvas"></canvas>
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      <div class="reveal">
+        <span class="inline-block px-4 py-2 rounded-full text-xs font-medium mb-6" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-light); border: 1px solid var(--border);">
+          2024年 · 市场调研报告
+        </span>
+      </div>
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 reveal" style="transition-delay: 0.1s;">
+        <span style="color: var(--fg-primary);">美容仪</span><br>
+        <span style="background: linear-gradient(135deg, var(--accent-light), var(--accent-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          产品报告
+        </span>
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 reveal" style="color: var(--fg-secondary); transition-delay: 0.2s;">
+        数据驱动决策 · Data-Driven Insights
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 reveal" style="transition-delay: 0.3s;">
+        <a href="ppt.html" class="btn-primary">探索报告</a>
+        <a href="#innovation" class="px-8 py-4 rounded-lg border transition-all hover:bg-white/5" style="border-color: var(--border);">创新方案</a>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 reveal" style="transition-delay: 0.4s;">
+        <div class="text-center p-4 rounded-xl" style="background: rgba(59, 130, 246, 0.05);">
+          <div class="font-display text-3xl md:text-4xl font-bold counter" style="color: var(--accent-light);" data-target="587">0</div>
+          <div class="text-sm mt-1" style="color: var(--fg-secondary);">全球市场规模(亿美元)</div>
+        </div>
+        <div class="text-center p-4 rounded-xl" style="background: rgba(59, 130, 246, 0.05);">
+          <div class="font-display text-3xl md:text-4xl font-bold counter" style="color: var(--accent-light);" data-target="217">0</div>
+          <div class="text-sm mt-1" style="color: var(--fg-secondary);">有效问卷样本</div>
+        </div>
+        <div class="text-center p-4 rounded-xl" style="background: rgba(59, 130, 246, 0.05);">
+          <div class="font-display text-3xl md:text-4xl font-bold counter" style="color: var(--accent-light);" data-target="5">0</div>
+          <div class="text-sm mt-1" style="color: var(--fg-secondary);">核心用户痛点</div>
+        </div>
+        <div class="text-center p-4 rounded-xl" style="background: rgba(59, 130, 246, 0.05);">
+          <div class="font-display text-3xl md:text-4xl font-bold counter" style="color: var(--accent-light);" data-target="4">0</div>
+          <div class="text-sm mt-1" style="color: var(--fg-secondary);">创新产品方案</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--fg-secondary);">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Market Insights Section -->
+  <section id="insights" class="py-24 px-6 section-gradient">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">01 · MARKET INSIGHTS</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">市场洞察</h2>
+        <p class="mt-4 text-lg reveal" style="color: var(--fg-secondary); transition-delay: 0.2s;">全球及国内市场规模、增长趋势与区域分布特征</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 mb-16">
+        <div class="animated-border p-6 hover-lift reveal">
+          <h3 class="font-display text-xl font-semibold mb-6">全球市场规模对比 (2018 vs 2024)</h3>
+          <div class="chart-container"><canvas id="market-chart"></canvas></div>
+          <div class="grid grid-cols-2 gap-4 mt-6">
+            <div class="text-center p-4 rounded-lg" style="background: var(--bg-secondary);">
+              <div class="font-display text-2xl font-bold" style="color: var(--accent-light);">6.3%</div>
+              <div class="text-sm mt-1" style="color: var(--fg-secondary);">复合增长率 2018-2024</div>
+            </div>
+            <div class="text-center p-4 rounded-lg" style="background: var(--bg-secondary);">
+              <div class="font-display text-2xl font-bold" style="color: var(--accent-light);">6.8%</div>
+              <div class="text-sm mt-1" style="color: var(--fg-secondary);">预测增长 2024-2029</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="animated-border p-6 hover-lift reveal" style="transition-delay: 0.1s;">
+          <h3 class="font-display text-xl font-semibold mb-6">全球零售额区域分布</h3>
+          <div class="chart-container"><canvas id="region-chart"></canvas></div>
+          <div class="mt-6 p-4 rounded-lg" style="background: var(--bg-secondary);">
+            <p class="text-sm" style="color: var(--fg-secondary);">
+              <span style="color: var(--accent-light);">关键洞察</span><br>
+              亚太地区为最大市场，2024年占比32.7%，增长潜力巨大·北美市场占比28.6%，西欧占比21.3%，市场成熟度高·全球零售额从2018年236亿美元增长至2024年587亿美元
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 品牌变迁 -->
+      <div class="animated-border p-6 hover-lift reveal">
+        <h3 class="font-display text-xl font-semibold mb-6">双十一美容仪器TOP10品牌变迁</h3>
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+          <div>
+            <div class="text-center mb-4 py-2 rounded-lg" style="background: rgba(239, 68, 68, 0.1);">
+              <span class="text-sm" style="color: #f87171;">2019年榜单</span>
+            </div>
+            <div class="space-y-2" id="brands-2019"></div>
+            <div class="mt-4 text-center p-3 rounded-lg" style="background: var(--bg-secondary);">
+              <span class="text-sm" style="color: var(--fg-secondary);">进口品牌占比: </span>
+              <span class="font-bold" style="color: #f87171;">77.53%</span>
+            </div>
+          </div>
+          <div>
+            <div class="text-center mb-4 py-2 rounded-lg" style="background: rgba(59, 130, 246, 0.15);">
+              <span class="text-sm" style="color: var(--accent-light);">2024年榜单</span>
+            </div>
+            <div class="space-y-2" id="brands-2024"></div>
+            <div class="mt-4 text-center p-3 rounded-lg" style="background: var(--bg-secondary);">
+              <span class="text-sm" style="color: var(--fg-secondary);">国货品牌占比: </span>
+              <span class="font-bold" style="color: var(--accent-light);">90%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 市场格局变化洞察 -->
+        <div class="p-6 rounded-xl mb-6" style="background: var(--bg-secondary);">
+          <h4 class="font-semibold text-lg mb-4" style="color: var(--fg-primary);">市场格局变化洞察</h4>
+          <ul class="text-sm space-y-3" style="color: var(--fg-secondary);">
+            <li class="flex items-start gap-2">
+              <span style="color: var(--accent-light);">•</span>
+              <span>国货品牌技术迭代与合规化布局，市场份额实现历史性反超</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span style="color: var(--accent-light);">•</span>
+              <span>极萌斩获抖音、天猫、京东等多平台美容仪类目销售冠军</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span style="color: var(--accent-light);">•</span>
+              <span>以色列品牌退出TOP10，日系品牌仅剩雅萌</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 三个数据模块 -->
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="p-5 rounded-xl text-center" style="background: var(--bg-secondary);">
+            <div class="font-display text-2xl font-bold mb-1" style="color: var(--accent-light);">372.8亿</div>
+            <div class="text-sm mb-1" style="color: var(--fg-primary);">2024年线上销售额</div>
+            <div class="text-xs" style="color: var(--fg-secondary);">线上渠道占比超75%</div>
+          </div>
+          <div class="p-5 rounded-xl text-center" style="background: var(--bg-secondary);">
+            <div class="font-display text-2xl font-bold mb-1" style="color: var(--accent-light);">430亿+</div>
+            <div class="text-sm mb-1" style="color: var(--fg-primary);">2025年预测</div>
+            <div class="text-xs" style="color: var(--fg-secondary);">持续高增长态势</div>
+          </div>
+          <div class="p-5 rounded-xl text-center" style="background: var(--bg-secondary);">
+            <div class="font-display text-2xl font-bold mb-1" style="color: var(--accent-light);">3.5台</div>
+            <div class="text-sm mb-1" style="color: var(--fg-primary);">户均保有量</div>
+            <div class="text-xs" style="color: var(--fg-secondary);">仅为欧美1/3，2-3倍提升空间</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Market Segments Section -->
+  <section id="segments" class="py-24 px-6" style="background: var(--bg-primary);">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">MARKET SEGMENTS</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">眼部美容仪成为增长最快的细分领域</h2>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 mb-8">
+        <div class="animated-border p-6 hover-lift reveal">
+          <h3 class="font-display text-xl font-semibold mb-2">面部美容工具消费规模增长</h3>
+          <div class="chart-container">
+            <canvas id="segments-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="animated-border p-6 hover-lift reveal" style="transition-delay: 0.1s;">
+          <h3 class="font-display text-xl font-semibold mb-6">核心消费群体特征</h3>
+          <div class="text-center mb-6">
+            <div class="font-display text-5xl font-bold mb-2" style="color: var(--accent-light);">42%+</div>
+            <p class="text-sm" style="color: var(--fg-secondary);">25岁以下消费者占比</p>
+          </div>
+          <div class="p-4 rounded-lg text-center" style="background: var(--bg-secondary);">
+            <p class="font-semibold mb-2" style="color: var(--fg-primary);">年轻群体成为眼部美容仪消费核心主力</p>
+            <p class="text-sm" style="color: var(--fg-secondary);">80后、90后突出表现 — 主力消费群</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div class="animated-border p-6 hover-lift reveal">
+          <h3 class="font-display text-xl font-semibold mb-6">95后夜间消费习惯</h3>
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div class="font-display text-2xl font-bold mb-1" style="color: var(--accent-light);">22:00-02:00</div>
+              <p class="text-xs" style="color: var(--fg-secondary);">夜间活动时间</p>
+            </div>
+            <div>
+              <div class="font-display text-2xl font-bold mb-1" style="color: var(--accent-light);">30%</div>
+              <p class="text-xs" style="color: var(--fg-secondary);">熬夜到1点占比</p>
+            </div>
+            <div>
+              <div class="font-display text-2xl font-bold mb-1" style="color: var(--accent-light);">40%+</div>
+              <p class="text-xs" style="color: var(--fg-secondary);">夜间护肤消费占比</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="animated-border p-6 hover-lift reveal" style="transition-delay: 0.1s;">
+          <h3 class="font-display text-xl font-semibold mb-4">女性家庭消费结构</h3>
+          <p class="text-sm mb-4" style="color: var(--fg-secondary);">精致女孩在美眼仪上持续加码消费</p>
+          <div class="flex items-center gap-4 mb-4">
+            <div class="flex-1">
+              <div class="h-3 rounded-full" style="background: var(--bg-secondary);">
+                <div class="h-3 rounded-full" style="width: 45%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+            </div>
+            <span class="font-display font-bold text-lg" style="color: var(--accent-light);">45%</span>
+          </div>
+          <p class="text-sm" style="color: var(--fg-secondary);">45%用户满意 — 现代用户自我形象认知较好</p>
+        </div>
+      </div>
+
+      <div class="animated-border p-6 reveal">
+        <h3 class="font-semibold mb-4" style="color: var(--accent-light);">关键洞察</h3>
+        <ul class="text-sm space-y-2" style="color: var(--fg-secondary);">
+          <li>• 面部护理类产品市场规模最大，占整体美容仪市场60%+</li>
+          <li>• 眼部美容仪细分赛道增速最快，2024年8月消费规模19.8亿元</li>
+          <li>• 近半女性个人消费占家庭收入1/3以上，美容护肤意愿强烈</li>
+          <li>• "熬夜修护"概念产品消费持续走高</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- User Needs Section -->
+  <section id="users" class="py-24 px-6 section-gradient">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">02 · USER NEEDS</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">用户需求调研</h2>
+        <p class="mt-4 text-lg reveal" style="color: var(--fg-secondary); transition-delay: 0.2s;">217份有效问卷与焦点小组深度分析</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 stagger-children">
+        <div class="animated-border p-6 text-center hover-lift reveal">
+          <div class="font-display text-3xl font-bold" style="color: var(--accent-light);">6</div>
+          <div class="text-sm mt-2" style="color: var(--fg-secondary);">问卷发放天数</div>
+        </div>
+        <div class="animated-border p-6 text-center hover-lift reveal">
+          <div class="font-display text-3xl font-bold" style="color: var(--accent-light);">217</div>
+          <div class="text-sm mt-2" style="color: var(--fg-secondary);">有效问卷数</div>
+        </div>
+        <div class="animated-border p-6 text-center hover-lift reveal">
+          <div class="font-display text-3xl font-bold" style="color: var(--accent-light);">90.4%</div>
+          <div class="text-sm mt-2" style="color: var(--fg-secondary);">有效转化率</div>
+        </div>
+        <div class="animated-border p-6 text-center hover-lift reveal">
+          <div class="font-display text-3xl font-bold" style="color: var(--accent-light);">240</div>
+          <div class="text-sm mt-2" style="color: var(--fg-secondary);">点击短链人数</div>
+        </div>
+      </div>
+
+      <!-- 人口统计分布板块 -->
+      <div class="grid md:grid-cols-2 gap-4 mb-10 reveal">
+        <!-- 婚姻状况 -->
+        <div class="stat-card animated-border p-5">
+          <h4 class="font-semibold mb-4 text-sm" style="color: var(--fg-primary);">婚姻状况</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-12" style="color: var(--fg-secondary);">未婚</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="45" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="45">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-12" style="color: var(--fg-secondary);">已婚</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="40" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="40">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-12" style="color: var(--fg-secondary);">其他</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="15" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="15">0</span>%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 年龄 -->
+        <div class="stat-card animated-border p-5">
+          <h4 class="font-semibold mb-4 text-sm" style="color: var(--fg-primary);">年龄</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-16" style="color: var(--fg-secondary);">18-25岁</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="42" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="42">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-16" style="color: var(--fg-secondary);">26-35岁</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="35" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="35">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-16" style="color: var(--fg-secondary);">36岁以上</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="23" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="23">0</span>%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 个人月收入 -->
+        <div class="stat-card animated-border p-5">
+          <h4 class="font-semibold mb-4 text-sm" style="color: var(--fg-primary);">个人月收入</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-20" style="color: var(--fg-secondary);">2000-6000元</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="48" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="48">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-20" style="color: var(--fg-secondary);">6000-10000元</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="32" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="32">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-20" style="color: var(--fg-secondary);">10000元以上</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="20" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="20">0</span>%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 注重形象方面 -->
+        <div class="stat-card animated-border p-5">
+          <h4 class="font-semibold mb-4 text-sm" style="color: var(--fg-primary);">注重形象方面</h4>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-12" style="color: var(--fg-secondary);">皮肤</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="48" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="48">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-12" style="color: var(--fg-secondary);">身材</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="30" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="30">0</span>%</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs w-12" style="color: var(--fg-secondary);">其他</span>
+              <div class="flex-1 h-2 rounded-full" style="background: var(--bg-secondary);">
+                <div class="progress-bar h-2 rounded-full" data-width="22" style="width: 0%; background: linear-gradient(90deg, var(--accent-secondary), var(--accent-light));"></div>
+              </div>
+              <span class="text-xs font-semibold w-10 text-right" style="color: var(--accent-light);"><span class="stat-num" data-target="22">0</span>%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="font-display text-2xl font-semibold mb-8 text-center reveal">五大核心痛点</h3>
+      <div class="grid md:grid-cols-5 gap-4 mb-16 stagger-children">
+        <div class="pain-card animated-border p-6 text-center hover-lift reveal">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59, 130, 246, 0.15);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-light);"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <h4 class="font-semibold mb-2">解放双手</h4>
+          <p class="text-sm" style="color: var(--fg-secondary);">手持麻烦，操作累人</p>
+        </div>
+        <div class="pain-card animated-border p-6 text-center hover-lift reveal">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59, 130, 246, 0.15);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-light);"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h4 class="font-semibold mb-2">时间长</h4>
+          <p class="text-sm" style="color: var(--fg-secondary);">无法长期坚持</p>
+        </div>
+        <div class="pain-card animated-border p-6 text-center hover-lift reveal">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59, 130, 246, 0.15);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-light);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4 class="font-semibold mb-2">安全顾虑</h4>
+          <p class="text-sm" style="color: var(--fg-secondary);">刺痛感与辐射风险</p>
+        </div>
+        <div class="pain-card animated-border p-6 text-center hover-lift reveal">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59, 130, 246, 0.15);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-light);"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+          </div>
+          <h4 class="font-semibold mb-2">功效不足</h4>
+          <p class="text-sm" style="color: var(--fg-secondary);">效果不明显</p>
+        </div>
+        <div class="pain-card animated-border p-6 text-center hover-lift reveal">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: rgba(59, 130, 246, 0.15);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-light);"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          </div>
+          <h4 class="font-semibold mb-2">清洁困难</h4>
+          <p class="text-sm" style="color: var(--fg-secondary);">滋生细菌难清洗</p>
+        </div>
+      </div>
+
+      <div class="animated-border p-6 reveal">
+        <h3 class="font-display text-xl font-semibold mb-6">促购因子分析：产品期望特征</h3>
+        <div class="chart-container"><canvas id="expectations-chart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beauty Device Data Section -->
+  <section id="device-data" class="py-24 px-6" style="background: var(--bg-primary);">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">BEAUTY DEVICE DATA</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">美容仪市场数据</h2>
+        <p class="mt-4 text-lg reveal" style="color: var(--fg-secondary); transition-delay: 0.2s;">需求量与市场规模持续高速增长</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-10 stagger-children">
+        <div class="data-card animated-border p-6 hover-lift reveal">
+          <h4 class="font-semibold mb-4" style="color: var(--fg-primary);">需求量</h4>
+          <div class="flex items-end justify-center gap-3 mb-3">
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold counter-animated" style="color: var(--accent-light);" data-target="131">0</div>
+              <p class="text-xs mt-1" style="color: var(--fg-secondary);">2014年</p>
+            </div>
+            <span class="text-xl mb-1" style="color: var(--fg-secondary);">→</span>
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold" style="color: var(--accent-light);">1912.3<span class="text-lg">万台</span></div>
+              <p class="text-xs mt-1" style="color: var(--fg-secondary);">2024年</p>
+            </div>
+          </div>
+          <div class="text-center pt-3" style="border-top: 1px solid var(--border);">
+            <span class="text-sm" style="color: var(--accent-light);">10年增长</span>
+            <span class="font-bold text-lg ml-1" style="color: var(--accent-light);">14.6倍</span>
+          </div>
+        </div>
+
+        <div class="data-card animated-border p-6 hover-lift reveal">
+          <h4 class="font-semibold mb-4" style="color: var(--fg-primary);">市场规模</h4>
+          <div class="flex items-end justify-center gap-3 mb-3">
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold counter-animated" style="color: var(--accent-light);" data-target="20">0</div>
+              <p class="text-xs mt-1" style="color: var(--fg-secondary);">2014年</p>
+            </div>
+            <span class="text-xl mb-1" style="color: var(--fg-secondary);">→</span>
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold" style="color: var(--accent-light);">158.7<span class="text-lg">亿元</span></div>
+              <p class="text-xs mt-1" style="color: var(--fg-secondary);">2024年</p>
+            </div>
+          </div>
+          <div class="text-center pt-3" style="border-top: 1px solid var(--border);">
+            <span class="text-sm" style="color: var(--accent-light);">增长近</span>
+            <span class="font-bold text-lg ml-1" style="color: var(--accent-light);">7倍</span>
+          </div>
+        </div>
+
+        <div class="data-card animated-border p-6 hover-lift reveal">
+          <h4 class="font-semibold mb-4" style="color: var(--fg-primary);">家用便携款占比</h4>
+          <div class="text-center py-4">
+            <div class="font-display text-5xl font-bold mb-2" style="color: var(--accent-light);">&gt;85<span class="text-2xl">%</span></div>
+            <p class="text-sm" style="color: var(--fg-secondary);">成为核心增长动力</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="animated-border p-6 reveal">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex-1">
+            <h4 class="font-semibold mb-2" style="color: var(--fg-primary);">提拉紧致美容仪（含射频、微电流）</h4>
+            <p class="text-sm" style="color: var(--fg-secondary);">2019-2024年复合增长率</p>
+          </div>
+          <div class="text-center px-8 py-4 rounded-xl" style="background: var(--bg-secondary);">
+            <div class="font-display text-4xl font-bold" style="color: var(--accent-light);">41.3<span class="text-xl">%</span></div>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 text-center text-sm" style="border-top: 1px solid var(--border);">
+          <span style="color: var(--fg-secondary);">增速最快的美容仪品类</span>
+        </div>
+      </div>
+
+      <!-- 2024年市场格局 -->
+      <div class="mt-10 reveal">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="market-card animated-border p-5 hover-lift">
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold mb-2" style="color: var(--accent-light);">
+                <span class="market-counter" data-target="61.30" data-decimal="2">0</span><span class="text-lg">亿</span>
+              </div>
+              <h4 class="font-semibold text-sm mb-2" style="color: var(--fg-primary);">清洁及补水美容仪</h4>
+              <div class="text-sm" style="color: var(--fg-secondary);">占比<span class="font-semibold ml-1" style="color: var(--accent-light);">38.6%</span></div>
+            </div>
+          </div>
+
+          <div class="market-card animated-border p-5 hover-lift">
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold mb-2" style="color: var(--accent-light);">
+                <span class="market-counter" data-target="44.44" data-decimal="2">0</span><span class="text-lg">亿</span>
+              </div>
+              <h4 class="font-semibold text-sm mb-2" style="color: var(--fg-primary);">提拉紧致美容仪</h4>
+              <div class="text-sm" style="color: var(--fg-secondary);">占比<span class="font-semibold ml-1" style="color: var(--accent-light);">28.0%</span></div>
+            </div>
+          </div>
+
+          <div class="market-card animated-border p-5 hover-lift">
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold mb-2" style="color: var(--accent-light);">
+                <span class="market-counter" data-target="41.26" data-decimal="2">0</span><span class="text-lg">亿</span>
+              </div>
+              <h4 class="font-semibold text-sm mb-2" style="color: var(--fg-primary);">祛痘祛斑美容仪</h4>
+              <div class="text-sm" style="color: var(--fg-secondary);">占比<span class="font-semibold ml-1" style="color: var(--accent-light);">26.0%</span></div>
+            </div>
+          </div>
+
+          <div class="market-card animated-border p-5 hover-lift">
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold mb-2" style="color: var(--accent-light);">&gt;3<span class="text-lg">亿</span></div>
+              <h4 class="font-semibold text-sm mb-2" style="color: var(--fg-primary);">Top4品牌成交额</h4>
+              <div class="text-sm font-semibold" style="color: var(--accent-light);">国货品牌反超</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Section -->
+  <section class="py-24 px-6 section-gradient">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">03 · TECHNOLOGY</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">美容仪技术类型</h2>
+        <p class="mt-4 text-lg reveal" style="color: var(--fg-secondary); transition-delay: 0.2s;">五大核心技术深度解析</p>
+      </div>
+
+      <div class="grid md:grid-cols-5 gap-4 stagger-children">
+        <div class="tech-card animated-border p-6 hover-lift reveal cursor-pointer">
+          <div class="text-4xl font-display font-bold mb-4" style="color: var(--accent-light);">RF</div>
+          <h4 class="font-semibold mb-2">射频型</h4>
+          <p class="text-sm mb-4" style="color: var(--fg-secondary);">主流技术，通过高频振动产生热能</p>
+          <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-light);">主流技术</span>
+        </div>
+        <div class="tech-card animated-border p-6 hover-lift reveal cursor-pointer">
+          <div class="text-4xl font-display font-bold mb-4" style="color: var(--accent-light);">MC</div>
+          <h4 class="font-semibold mb-2">微电流型</h4>
+          <p class="text-sm mb-4" style="color: var(--fg-secondary);">刺激肌肉收缩，消除水肿</p>
+          <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(30, 64, 175, 0.3); color: var(--accent-light);">提拉紧致</span>
+        </div>
+        <div class="tech-card animated-border p-6 hover-lift reveal cursor-pointer">
+          <div class="text-4xl font-display font-bold mb-4" style="color: var(--accent-light);">EI</div>
+          <h4 class="font-semibold mb-2">电离子型</h4>
+          <p class="text-sm mb-4" style="color: var(--fg-secondary);">导入导出有效成分</p>
+          <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(30, 58, 138, 0.4); color: var(--accent-light);">导入导出</span>
+        </div>
+        <div class="tech-card animated-border p-6 hover-lift reveal cursor-pointer">
+          <div class="text-4xl font-display font-bold mb-4" style="color: var(--accent-light);">US</div>
+          <h4 class="font-semibold mb-2">超声波型</h4>
+          <p class="text-sm mb-4" style="color: var(--fg-secondary);">高频振动深层清洁</p>
+          <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-light);">深层清洁</span>
+        </div>
+        <div class="tech-card animated-border p-6 hover-lift reveal cursor-pointer">
+          <div class="text-4xl font-display font-bold mb-4" style="color: var(--accent-light);">LZ</div>
+          <h4 class="font-semibold mb-2">激光型</h4>
+          <p class="text-sm mb-4" style="color: var(--fg-secondary);">精准单色光治疗</p>
+          <span class="text-xs px-3 py-1 rounded-full" style="background: rgba(30, 64, 175, 0.3); color: var(--accent-light);">精准治疗</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Innovation Section -->
+  <section id="innovation" class="py-24 px-6" style="background: var(--bg-primary);">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">04 · INNOVATION</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">创新产品方案</h2>
+        <p class="mt-4 text-lg reveal" style="color: var(--fg-secondary); transition-delay: 0.2s;">三大创新方向，精准满足用户需求</p>
+      </div>
+
+      <div class="mb-16 reveal">
+        <div class="animated-border p-2">
+          <div id="product-gif-container">
+            <img id="product-gif" src="" alt="产品展示">
+          </div>
+        </div>
+        <div class="flex justify-center gap-4 mt-6 flex-wrap">
+          <button class="product-btn active px-6 py-3 rounded-lg transition-all" data-product="0" style="background: var(--accent-primary); color: white;">无线面罩</button>
+          <button class="product-btn px-6 py-3 rounded-lg transition-all" data-product="1" style="background: var(--bg-secondary); color: var(--fg-primary);">大排灯</button>
+          <button class="product-btn px-6 py-3 rounded-lg transition-all" data-product="2" style="background: var(--bg-secondary); color: var(--fg-primary);">颈纹仪</button>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 stagger-children">
+        <div class="animated-border p-6 hover-lift reveal">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59, 130, 246, 0.15);">
+              <span class="font-display font-bold" style="color: var(--accent-light);">01</span>
+            </div>
+            <div>
+              <h4 class="font-display text-lg font-semibold">无线美容面罩</h4>
+              <p class="text-xs" style="color: var(--fg-secondary);">解放双手，提升功效，增加蒸汽功能</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">无线设计</span>
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">蒸汽补水</span>
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">护眼透明</span>
+          </div>
+        </div>
+        
+        <div class="animated-border p-6 hover-lift reveal">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59, 130, 246, 0.15);">
+              <span class="font-display font-bold" style="color: var(--accent-light);">02</span>
+            </div>
+            <div>
+              <h4 class="font-display text-lg font-semibold">多功能大排灯</h4>
+              <p class="text-xs" style="color: var(--fg-secondary);">美白抗皱祛痘 + 蒸脸一体化</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">多光谱LED</span>
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">定制光疗</span>
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">纳米雾化</span>
+          </div>
+        </div>
+        
+        <div class="animated-border p-6 hover-lift reveal">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(59, 130, 246, 0.15);">
+              <span class="font-display font-bold" style="color: var(--accent-light);">03</span>
+            </div>
+            <div>
+              <h4 class="font-display text-lg font-semibold">颈部按摩去颈纹仪</h4>
+              <p class="text-xs" style="color: var(--fg-secondary);">祛颈纹 + 颈部按摩，解放双手</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">EMS微电流</span>
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">贴合设计</span>
+            <span class="text-xs px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--fg-secondary);">深层放松</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="py-24 px-6 section-gradient">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">TIMELINE</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">项目里程碑</h2>
+      </div>
+
+      <div class="relative">
+        <div class="timeline-line hidden md:block"></div>
+        <div class="space-y-12">
+          <div class="flex flex-col md:flex-row items-center gap-8 reveal">
+            <div class="md:w-1/2 md:text-right">
+              <div class="animated-border p-6 inline-block">
+                <span class="text-sm font-medium" style="color: var(--accent-light);">阶段一</span>
+                <h4 class="font-display text-xl font-semibold mt-2">市场调研</h4>
+                <p class="text-sm mt-2" style="color: var(--fg-secondary);">数据收集、竞品分析、趋势洞察</p>
+              </div>
+            </div>
+            <div class="w-4 h-4 rounded-full flex-shrink-0 relative z-10" style="background: var(--accent-primary); box-shadow: 0 0 20px var(--glow);"></div>
+            <div class="md:w-1/2"><span class="text-sm" style="color: var(--fg-secondary);">第1周</span></div>
+          </div>
+          <div class="flex flex-col md:flex-row items-center gap-8 reveal">
+            <div class="md:w-1/2 md:text-right md:order-1"><span class="text-sm" style="color: var(--fg-secondary);">第2周</span></div>
+            <div class="w-4 h-4 rounded-full flex-shrink-0 relative z-10 md:order-2" style="background: var(--accent-primary); box-shadow: 0 0 20px var(--glow);"></div>
+            <div class="md:w-1/2 md:order-3">
+              <div class="animated-border p-6 inline-block">
+                <span class="text-sm font-medium" style="color: var(--accent-light);">阶段二</span>
+                <h4 class="font-display text-xl font-semibold mt-2">用户调研</h4>
+                <p class="text-sm mt-2" style="color: var(--fg-secondary);">问卷设计、发放回收、数据分析</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row items-center gap-8 reveal">
+            <div class="md:w-1/2 md:text-right">
+              <div class="animated-border p-6 inline-block">
+                <span class="text-sm font-medium" style="color: var(--accent-light);">阶段三</span>
+                <h4 class="font-display text-xl font-semibold mt-2">方案设计</h4>
+                <p class="text-sm mt-2" style="color: var(--fg-secondary);">痛点定位、概念生成、方案细化</p>
+              </div>
+            </div>
+            <div class="w-4 h-4 rounded-full flex-shrink-0 relative z-10" style="background: var(--accent-primary); box-shadow: 0 0 20px var(--glow);"></div>
+            <div class="md:w-1/2"><span class="text-sm" style="color: var(--fg-secondary);">第3-5周</span></div>
+          </div>
+          <div class="flex flex-col md:flex-row items-center gap-8 reveal">
+            <div class="md:w-1/2 md:text-right md:order-1"><span class="text-sm" style="color: var(--fg-secondary);">第6-7周</span></div>
+            <div class="w-4 h-4 rounded-full flex-shrink-0 relative z-10 md:order-2" style="background: var(--accent-primary); box-shadow: 0 0 20px var(--glow);"></div>
+            <div class="md:w-1/2 md:order-3">
+              <div class="animated-border p-6 inline-block">
+                <span class="text-sm font-medium" style="color: var(--accent-light);">阶段四</span>
+                <h4 class="font-display text-xl font-semibold mt-2">报告输出</h4>
+                <p class="text-sm mt-2" style="color: var(--fg-secondary);">成果汇总、可视化呈现、方案汇报</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24 px-6" style="background: var(--bg-primary);">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-sm font-medium tracking-widest reveal" style="color: var(--accent-light);">FEEDBACK</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mt-4 reveal" style="transition-delay: 0.1s;">方案迭代与反馈收集</h2>
+        <p class="mt-4 text-lg reveal" style="color: var(--fg-secondary); transition-delay: 0.2s;">美容仪项目调研补充、方案优化建议与问题记录</p>
+      </div>
+
+      <form class="animated-border p-8 reveal" id="contact-form">
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label class="block text-sm mb-2" style="color: var(--fg-secondary);">提交人</label>
+            <input type="text" placeholder="请输入您的姓名/所属小组" required>
+          </div>
+          <div>
+            <label class="block text-sm mb-2" style="color: var(--fg-secondary);">提交日期</label>
+            <input type="date" id="submit-date" required>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm mb-2" style="color: var(--fg-secondary);">反馈类型</label>
+          <select required>
+            <option value="" disabled selected>请选择反馈类型</option>
+            <option value="调研数据补充">调研数据补充</option>
+            <option value="方案优化建议">方案优化建议</option>
+            <option value="项目问题反馈">项目问题反馈</option>
+            <option value="用户需求补充">用户需求补充</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm mb-2" style="color: var(--fg-secondary);">反馈详情</label>
+          <textarea rows="4" placeholder="请详细描述您的补充内容、建议细节或问题说明，可附上相关数据或参考信息" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary w-full">提交反馈</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-16 px-6" style="background: var(--bg-secondary); border-top: 1px solid var(--border);">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div><h4 class="font-display font-bold text-xl mb-4" style="color: var(--accent-light);">BEAUTY TECH</h4><p class="text-sm" style="color: var(--fg-secondary);">数据驱动产品创新，用户需求引领市场方向</p></div>
+        <div><h5 class="font-semibold mb-4">数据来源</h5><ul class="space-y-2 text-sm" style="color: var(--fg-secondary);"><li>前瞻产业研究院</li><li>立鼎产业研究网</li><li>欧睿国际</li><li>淘宝天猫</li></ul></div>
+        <div><h5 class="font-semibold mb-4">快速链接</h5><ul class="space-y-2 text-sm" style="color: var(--fg-secondary);"><li><a href="#insights" class="hover:text-white transition-colors">市场洞察</a></li><li><a href="#segments" class="hover:text-white transition-colors">细分市场</a></li><li><a href="#users" class="hover:text-white transition-colors">用户需求</a></li><li><a href="#innovation" class="hover:text-white transition-colors">创新方案</a></li><li><a href="#contact" class="hover:text-white transition-colors">方案迭代与反馈收集</a></li></ul></div>
+        <div><h5 class="font-semibold mb-4">灵感来源</h5><ul class="space-y-2 text-sm" style="color: var(--fg-secondary);"><li>阿里妈妈消费趋势白皮书</li><li>虞问数据报告</li><li>环球时报财经版块</li></ul></div>
+      </div>
+      <div class="pt-8 text-center text-sm" style="border-top: 1px solid var(--border); color: var(--fg-secondary);">
+        <p>© 2024 女性美容化妆市场调研报告 | 数据驱动决策 · Data-Driven Insights</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==================== GIF URL 配置 ====================
+    var PRODUCT_GIFS = {
+      0: 'https://raw.githubusercontent.com/hmm952/my-website/ebea03b67c33ef9719f8c4c17c86ad73a4f4191c/aea89de985866825eec07804f99cd8c4.gif',
+      1: 'https://raw.githubusercontent.com/hmm952/my-website/ebea03b67c33ef9719f8c4c17c86ad73a4f4191c/2781a389375389fa26ca90e50d9a728d.gif',
+      2: 'https://raw.githubusercontent.com/hmm952/my-website/8c9d5fd75a47c8f11e11846a74c0c65d320525e4/fe8f5baee97baed817ee4c5fc38dd9c1.gif'
+    };
+
+    // ==================== 初始化函数 ====================
+    function initApp() {
+      initHeroCanvas();
+      animateHero();
+      drawMarketChart();
+      drawRegionChart();
+      drawExpChart();
+      drawSegmentsChart();
+      renderBrands();
+      showProduct(0);
+      initScrollReveal();
+      initCounters();
+      initDataCounters();
+      initMarketCounters();
+      initStatBars();
+      setDefaultDate();
+    }
+
+    // ==================== 设置默认日期 ====================
+    function setDefaultDate() {
+      var dateInput = document.getElementById('submit-date');
+      if (dateInput) {
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = String(today.getMonth() + 1).padStart(2, '0');
+        var day = String(today.getDate()).padStart(2, '0');
+        dateInput.value = year + '-' + month + '-' + day;
+      }
+    }
+
+    // ==================== Canvas 工具函数 ====================
+    function setupCanvas(canvas, logicalWidth, logicalHeight) {
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = logicalWidth * dpr;
+      canvas.height = logicalHeight * dpr;
+      canvas.style.width = logicalWidth + 'px';
+      canvas.style.height = logicalHeight + 'px';
+      var ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      return { ctx: ctx, width: logicalWidth, height: logicalHeight, dpr: dpr };
+    }
+
+    // ==================== Hero Canvas ====================
+    var heroCanvas = document.getElementById('hero-canvas');
+    var heroCtx = heroCanvas.getContext('2d');
+    var heroParticles = [];
+
+    function initHeroCanvas() {
+      var dpr = window.devicePixelRatio || 1;
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      heroCanvas.width = width * dpr;
+      heroCanvas.height = height * dpr;
+      heroCanvas.style.width = width + 'px';
+      heroCanvas.style.height = height + 'px';
+      heroCtx.scale(dpr, dpr);
+      heroParticles = [];
+      var particleCount = Math.min(60, Math.floor(width / 25));
+      for (var i = 0; i < particleCount; i++) {
+        heroParticles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 2 + 1,
+          speedX: (Math.random() - 0.5) * 0.5,
+          speedY: (Math.random() - 0.5) * 0.5,
+          opacity: Math.random() * 0.5 + 0.2
+        });
+      }
+    }
+
+    function animateHero() {
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      
+      heroCtx.fillStyle = 'rgba(5, 10, 20, 0.1)';
+      heroCtx.fillRect(0, 0, width, height);
+      
+      var gradient1 = heroCtx.createRadialGradient(width * 0.3, height * 0.3, 0, width * 0.3, height * 0.3, 300);
+      gradient1.addColorStop(0, 'rgba(59, 130, 246, 0.08)');
+      gradient1.addColorStop(1, 'rgba(59, 130, 246, 0)');
+      heroCtx.fillStyle = gradient1;
+      heroCtx.fillRect(0, 0, width, height);
+      
+      for (var i = 0; i < heroParticles.length; i++) {
+        var p = heroParticles[i];
+        p.x += p.speedX;
+        p.y += p.speedY;
+        
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+        
+        heroCtx.beginPath();
+        heroCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        heroCtx.fillStyle = 'rgba(96, 165, 250, ' + p.opacity + ')';
+        heroCtx.fill();
+        
+        for (var j = i + 1; j < heroParticles.length; j++) {
+          var p2 = heroParticles[j];
+          var dist = Math.sqrt(Math.pow(p.x - p2.x, 2) + Math.pow(p.y - p2.y, 2));
+          if (dist < 120) {
+            heroCtx.beginPath();
+            heroCtx.moveTo(p.x, p.y);
+            heroCtx.lineTo(p2.x, p2.y);
+            heroCtx.strokeStyle = 'rgba(59, 130, 246, ' + (0.15 * (1 - dist / 120)) + ')';
+            heroCtx.stroke();
+          }
+        }
+      }
+      
+      requestAnimationFrame(animateHero);
+    }
+
+    // ==================== 图表绘制 ====================
+    function drawMarketChart() {
+      var canvas = document.getElementById('market-chart');
+      if (!canvas) return;
+      var container = canvas.parentElement;
+      var setup = setupCanvas(canvas, container.clientWidth, 280);
+      var ctx = setup.ctx;
+      var width = setup.width;
+      var height = setup.height;
+      
+      var data = [
+        { year: '2018', value: 236 },
+        { year: '2019', value: 285 },
+        { year: '2020', value: 342 },
+        { year: '2021', value: 408 },
+        { year: '2022', value: 476 },
+        { year: '2023', value: 534 },
+        { year: '2024', value: 587 }
+      ];
+      
+      var maxVal = 587;
+      var barWidth = width / data.length - 20;
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      ctx.strokeStyle = 'rgba(122, 139, 168, 0.1)';
+      ctx.lineWidth = 1;
+      for (var i = 0; i <= 5; i++) {
+        var y = (height - 40) * (1 - i / 5) + 20;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+      
+      data.forEach(function(d, i) {
+        var x = i * (width / data.length) + 10;
+        var barHeight = Math.max(1, (d.value / maxVal) * (height - 60));
+        var y = height - barHeight - 30;
+        
+        var gradient = ctx.createLinearGradient(x, y + barHeight, x, y);
+        gradient.addColorStop(0, 'rgba(30, 64, 175, 0.4)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0.9)');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.roundRect(x, y, barWidth, barHeight, [4, 4, 0, 0]);
+        ctx.fill();
+        
+        ctx.fillStyle = 'rgba(122, 139, 168, 0.8)';
+        ctx.font = '12px Space Grotesk';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.year, x + barWidth / 2, height - 10);
+        
+        ctx.fillStyle = 'rgba(96, 165, 250, 1)';
+        ctx.font = 'bold 11px Space Grotesk';
+        ctx.fillText(d.value, x + barWidth / 2, y - 5);
+      });
+    }
+
+    function drawRegionChart() {
+      var canvas = document.getElementById('region-chart');
+      if (!canvas) return;
+      var container = canvas.parentElement;
+      var setup = setupCanvas(canvas, container.clientWidth, 280);
+      var ctx = setup.ctx;
+      var width = setup.width;
+      var height = setup.height;
+      
+      var data = [
+        { name: '亚太', value: 32.7, color: '#3b82f6' },
+        { name: '北美', value: 28.6, color: '#1e40af' },
+        { name: '西欧', value: 21.3, color: '#1e3a8a' },
+        { name: '其他', value: 17.4, color: '#475569' }
+      ];
+      
+      var centerX = width / 2;
+      var centerY = height / 2;
+      var radius = Math.min(width, height) / 2 - 40;
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      var startAngle = -Math.PI / 2;
+      data.forEach(function(d) {
+        var sliceAngle = (d.value / 100) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+        ctx.fillStyle = d.color;
+        ctx.fill();
+        
+        var midAngle = startAngle + sliceAngle / 2;
+        var labelX = centerX + Math.cos(midAngle) * (radius + 25);
+        var labelY = centerY + Math.sin(midAngle) * (radius + 25);
+        
+        ctx.fillStyle = 'rgba(232, 240, 255, 0.9)';
+        ctx.font = 'bold 12px Space Grotesk';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.name + ' ' + d.value + '%', labelX, labelY);
+        
+        startAngle += sliceAngle;
+      });
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius * 0.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#0a1628';
+      ctx.fill();
+      
+      ctx.fillStyle = 'rgba(232, 240, 255, 0.8)';
+      ctx.font = 'bold 16px Space Grotesk';
+      ctx.textAlign = 'center';
+      ctx.fillText('2024', centerX, centerY + 5);
+    }
+
+    function drawExpChart() {
+      var canvas = document.getElementById('expectations-chart');
+      if (!canvas) return;
+      var container = canvas.parentElement;
+      var setup = setupCanvas(canvas, container.clientWidth, 240);
+      var ctx = setup.ctx;
+      var width = setup.width;
+      var height = setup.height;
+      
+      var data = [
+        { name: '安全', value: 57 },
+        { name: '易用易操作', value: 54 },
+        { name: '便携小巧', value: 42 },
+        { name: '科技智能', value: 41 },
+        { name: '功能多样', value: 35 }
+      ];
+      
+      var maxVal = 60;
+      var barHeight = 28;
+      var gap = 14;
+      var paddingTop = 15;
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      data.forEach(function(d, i) {
+        var y = i * (barHeight + gap) + paddingTop;
+        var barWidthCalc = Math.max(1, (d.value / maxVal) * (width - 150));
+        
+        ctx.fillStyle = 'rgba(122, 139, 168, 0.1)';
+        ctx.beginPath();
+        ctx.roundRect(120, y, width - 150, barHeight, 4);
+        ctx.fill();
+        
+        var gradient = ctx.createLinearGradient(120, 0, 120 + barWidthCalc, 0);
+        gradient.addColorStop(0, 'rgba(30, 64, 175, 0.8)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0.9)');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.roundRect(120, y, barWidthCalc, barHeight, 4);
+        ctx.fill();
+        
+        ctx.fillStyle = 'rgba(232, 240, 255, 0.9)';
+        ctx.font = '14px Noto Sans SC';
+        ctx.textAlign = 'right';
+        ctx.fillText(d.name, 110, y + barHeight / 2 + 5);
+        
+        ctx.fillStyle = 'rgba(96, 165, 250, 1)';
+        ctx.font = 'bold 14px Space Grotesk';
+        ctx.textAlign = 'left';
+        ctx.fillText(d.value + '%', 130 + barWidthCalc, y + barHeight / 2 + 5);
+      });
+    }
+
+    // ==================== Segments Chart ====================
+    function drawSegmentsChart() {
+      var canvas = document.getElementById('segments-chart');
+      if (!canvas) return;
+      var container = canvas.parentElement;
+      var setup = setupCanvas(canvas, container.clientWidth, 320);
+      var ctx = setup.ctx;
+      var width = setup.width;
+      var height = setup.height;
+      
+      var data = [
+        { time: '2020.08', value: 6.02, growth: 29 },
+        { time: '2021.08', value: 9.5, growth: 57 },
+        { time: '2022.08', value: 12.3, growth: 40 },
+        { time: '2023.08', value: 16.7, growth: 28 },
+        { time: '2024.08', value: 19.8, growth: 22 }
+      ];
+      
+      var maxScale = 21;
+      var maxGrowth = 60;
+      
+      var paddingTop = 40;
+      var paddingBottom = 50;
+      var paddingLeft = 50;
+      var paddingRight = 50;
+      
+      var chartWidth = width - paddingLeft - paddingRight;
+      var chartHeight = height - paddingTop - paddingBottom;
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      ctx.strokeStyle = 'rgba(122, 139, 168, 0.15)';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = 'rgba(122, 139, 168, 0.7)';
+      ctx.font = '11px Space Grotesk';
+      
+      ctx.textAlign = 'right';
+      for (var i = 0; i <= 5; i++) {
+        var y = paddingTop + chartHeight * (1 - i / 5);
+        var value = (maxScale / 5) * i;
+        
+        ctx.beginPath();
+        ctx.moveTo(paddingLeft, y);
+        ctx.lineTo(width - paddingRight, y);
+        ctx.stroke();
+        
+        ctx.fillText(value.toFixed(0), paddingLeft - 8, y + 4);
+      }
+      
+      ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(96, 165, 250, 0.8)';
+      for (var i = 0; i <= 6; i++) {
+        var y = paddingTop + chartHeight * (1 - i / 6);
+        var value = (maxGrowth / 6) * i;
+        ctx.fillText(value.toFixed(0) + '%', width - paddingRight + 8, y + 4);
+      }
+      
+      ctx.fillStyle = 'rgba(122, 139, 168, 0.8)';
+      ctx.font = '11px Noto Sans SC';
+      ctx.textAlign = 'center';
+      ctx.save();
+      ctx.translate(12, height / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('消费规模（亿元）', 0, 0);
+      ctx.restore();
+      
+      ctx.fillStyle = 'rgba(96, 165, 250, 0.8)';
+      ctx.save();
+      ctx.translate(width - 12, height / 2);
+      ctx.rotate(Math.PI / 2);
+      ctx.fillText('同比增长率（%）', 0, 0);
+      ctx.restore();
+      
+      var barWidth = Math.min(30, chartWidth / data.length - 20);
+      var barGap = (chartWidth - barWidth * data.length) / (data.length + 1);
+      
+      data.forEach(function(d, i) {
+        var x = paddingLeft + barGap + i * (barWidth + barGap);
+        var barHeight = (d.value / maxScale) * chartHeight;
+        var y = paddingTop + chartHeight - barHeight;
+        
+        var gradient = ctx.createLinearGradient(x, y + barHeight, x, y);
+        gradient.addColorStop(0, 'rgba(30, 64, 175, 0.6)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0.95)');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.roundRect(x, y, barWidth, barHeight, [3, 3, 0, 0]);
+        ctx.fill();
+        
+        ctx.fillStyle = 'rgba(96, 165, 250, 1)';
+        ctx.font = 'bold 11px Space Grotesk';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.value.toFixed(2), x + barWidth / 2, y - 5);
+        
+        ctx.fillStyle = 'rgba(122, 139, 168, 0.8)';
+        ctx.font = '11px Space Grotesk';
+        ctx.fillText(d.time, x + barWidth / 2, height - paddingBottom + 15);
+      });
+      
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(96, 165, 250, 0.9)';
+      ctx.lineWidth = 2;
+      
+      data.forEach(function(d, i) {
+        var x = paddingLeft + barGap + i * (barWidth + barGap) + barWidth / 2;
+        var y = paddingTop + chartHeight * (1 - d.growth / maxGrowth);
+        
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      });
+      ctx.stroke();
+      
+      data.forEach(function(d, i) {
+        var x = paddingLeft + barGap + i * (barWidth + barGap) + barWidth / 2;
+        var y = paddingTop + chartHeight * (1 - d.growth / maxGrowth);
+        
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#60a5fa';
+        ctx.fill();
+        ctx.strokeStyle = '#0a1628';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        ctx.fillStyle = 'rgba(96, 165, 250, 0.9)';
+        ctx.font = 'bold 10px Space Grotesk';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.growth + '%', x, y - 10);
+      });
+      
+      var legendY = height - 15;
+      
+      ctx.fillStyle = 'rgba(59, 130, 246, 0.8)';
+      ctx.fillRect(paddingLeft, legendY - 8, 16, 10);
+      ctx.fillStyle = 'rgba(122, 139, 168, 0.8)';
+      ctx.font = '10px Noto Sans SC';
+      ctx.textAlign = 'left';
+      ctx.fillText('消费规模（亿元）', paddingLeft + 20, legendY);
+      
+      ctx.beginPath();
+      ctx.moveTo(paddingLeft + 120, legendY - 3);
+      ctx.lineTo(paddingLeft + 136, legendY - 3);
+      ctx.strokeStyle = 'rgba(96, 165, 250, 0.9)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(paddingLeft + 128, legendY - 3, 3, 0, Math.PI * 2);
+      ctx.fillStyle = '#60a5fa';
+      ctx.fill();
+      ctx.fillStyle = 'rgba(122, 139, 168, 0.8)';
+      ctx.fillText('同比增长率（%）', paddingLeft + 140, legendY);
+    }
+
+    // ==================== 品牌渲染 ====================
+    function renderBrands() {
+      var brands2019 = [
+        { name: '雅萌', country: '日' },
+        { name: 'Tripollar', country: '以' },
+        { name: 'Refa', country: '日' },
+        { name: 'Silk\'n', country: '以' },
+        { name: 'NuFace', country: '美' }
+      ];
+      
+      var brands2024 = [
+        { name: '极萌', country: '国' },
+        { name: 'AMIRO觅光', country: '国' },
+        { name: 'Ulike', country: '国' },
+        { name: '花至', country: '国' },
+        { name: '雅萌', country: '日' }
+      ];
+      
+      var container2019 = document.getElementById('brands-2019');
+      var container2024 = document.getElementById('brands-2024');
+      
+      var html2019 = '';
+      brands2019.forEach(function(b, i) {
+        html2019 += '<div class="flex items-center justify-between p-2 rounded transition-all hover:bg-white/5"><span class="text-sm">' + (i + 1) + '. ' + b.name + '</span><span class="text-xs px-2 py-1 rounded" style="background: rgba(239, 68, 68, 0.15); color: #f87171;">' + b.country + '</span></div>';
+      });
+      container2019.innerHTML = html2019;
+      
+      var html2024 = '';
+      brands2024.forEach(function(b, i) {
+        var isC = b.country === '国';
+        var bgColor = isC ? 'rgba(59, 130, 246, 0.2)' : 'rgba(239, 68, 68, 0.15)';
+        var textColor = isC ? '#60a5fa' : '#f87171';
+        html2024 += '<div class="flex items-center justify-between p-2 rounded transition-all hover:bg-white/5"><span class="text-sm">' + (i + 1) + '. ' + b.name + '</span><span class="text-xs px-2 py-1 rounded" style="background: ' + bgColor + '; color: ' + textColor + ';">' + b.country + '</span></div>';
+      });
+      container2024.innerHTML = html2024;
+    }
+
+    // ==================== 产品展示 ====================
+    function showProduct(type) {
+      var img = document.getElementById('product-gif');
+      if (img && PRODUCT_GIFS[type]) {
+        img.src = PRODUCT_GIFS[type];
+      }
+    }
+
+    document.querySelectorAll('.product-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.product-btn').forEach(function(b) {
+          b.style.background = 'var(--bg-secondary)';
+          b.style.color = 'var(--fg-primary)';
+        });
+        btn.style.background = 'var(--accent-primary)';
+        btn.style.color = 'white';
+        
+        var type = parseInt(btn.dataset.product);
+        showProduct(type);
+      });
+    });
+
+    // ==================== 滚动显示 ====================
+    function initScrollReveal() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.reveal').forEach(function(el) {
+        observer.observe(el);
+      });
+    }
+
+    // ==================== 计数器 ====================
+    function initCounters() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateCounters();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      document.querySelectorAll('.counter').forEach(function(el) {
+        observer.observe(el);
+      });
+    }
+
+    function animateCounters() {
+      document.querySelectorAll('.counter').forEach(function(counter) {
+        var target = parseInt(counter.dataset.target);
+        var duration = 2000;
+        var start = performance.now();
+        
+        function update(currentTime) {
+          var progress = Math.min((currentTime - start) / duration, 1);
+          counter.textContent = Math.floor((1 - Math.pow(1 - progress, 3)) * target);
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = target;
+          }
+        }
+        
+        requestAnimationFrame(update);
+      });
+    }
+
+    // ==================== 数据板块动态数字 ====================
+    function initDataCounters() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateDataCounters();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      document.querySelectorAll('.counter-animated').forEach(function(el) {
+        observer.observe(el);
+      });
+    }
+
+    function animateDataCounters() {
+      document.querySelectorAll('.counter-animated').forEach(function(counter) {
+        var target = parseInt(counter.dataset.target);
+        var duration = 2000;
+        var start = performance.now();
+        
+        function update(currentTime) {
+          var progress = Math.min((currentTime - start) / duration, 1);
+          var current = Math.floor((1 - Math.pow(1 - progress, 3)) * target);
+          counter.textContent = current;
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = target;
+          }
+        }
+        
+        requestAnimationFrame(update);
+      });
+    }
+
+    // ==================== 市场格局动态数字 ====================
+    function initMarketCounters() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateMarketCounters();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      document.querySelectorAll('.market-counter').forEach(function(el) {
+        observer.observe(el);
+      });
+    }
+
+    function animateMarketCounters() {
+      document.querySelectorAll('.market-counter').forEach(function(counter) {
+        var target = parseFloat(counter.dataset.target);
+        var decimals = parseInt(counter.dataset.decimal) || 0;
+        var duration = 2000;
+        var start = performance.now();
+        
+        function update(currentTime) {
+          var progress = Math.min((currentTime - start) / duration, 1);
+          var current = (1 - Math.pow(1 - progress, 3)) * target;
+          counter.textContent = current.toFixed(decimals);
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = target.toFixed(decimals);
+          }
+        }
+        
+        requestAnimationFrame(update);
+      });
+    }
+
+    // ==================== 统计条形图动画 ====================
+    function initStatBars() {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateStatBars();
+            animateStatNums();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      document.querySelectorAll('.progress-bar').forEach(function(el) {
+        observer.observe(el);
+      });
+    }
+
+    function animateStatBars() {
+      document.querySelectorAll('.progress-bar').forEach(function(bar) {
+        var targetWidth = bar.dataset.width;
+        setTimeout(function() {
+          bar.style.width = targetWidth + '%';
+        }, 100);
+      });
+    }
+
+    function animateStatNums() {
+      document.querySelectorAll('.stat-num').forEach(function(num) {
+        var target = parseInt(num.dataset.target);
+        var duration = 1500;
+        var start = performance.now();
+        
+        function update(currentTime) {
+          var progress = Math.min((currentTime - start) / duration, 1);
+          var current = Math.floor((1 - Math.pow(1 - progress, 3)) * target);
+          num.textContent = current;
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            num.textContent = target;
+          }
+        }
+        
+        setTimeout(function() {
+          requestAnimationFrame(update);
+        }, 200);
+      });
+    }
+
+    // ==================== 移动端菜单 ====================
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.remove('hidden');
+    });
+
+    document.getElementById('close-menu').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.add('hidden');
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(function(link) {
+      link.addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+
+    // ==================== 表单提交 ====================
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('感谢您的反馈！我们会尽快处理您的提交。');
+      e.target.reset();
+      setDefaultDate();
+    });
+
+    // ==================== 窗口调整 ====================
+    var resizeTimeout;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function() {
+        initHeroCanvas();
+        drawMarketChart();
+        drawRegionChart();
+        drawExpChart();
+        drawSegmentsChart();
+      }, 100);
+    });
+
+    // ==================== 启动应用 ====================
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
